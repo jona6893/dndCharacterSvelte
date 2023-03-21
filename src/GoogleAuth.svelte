@@ -1,4 +1,4 @@
-<script >
+<script>
   import { app, auth, db } from "./firebase";
   import {
     getAuth,
@@ -13,8 +13,10 @@
   import { userData } from './storeUser';
   import { navigate } from 'svelte-routing';
 
+
   let user = null;
   let unsubscribeCharacters;
+  //
   //
   //Login with Google
 const loginWithGoogle = () => {
@@ -23,6 +25,7 @@ const loginWithGoogle = () => {
   };
 
 //
+//
 //Logout with Google
   const logout = async () => {
     //const auth = getAuth(app);
@@ -30,8 +33,35 @@ const loginWithGoogle = () => {
   };
 
 //
+//
 // Get all userData from Firebase, If they have a Character
-function fetchCharacters(charactersCollectionRef) {
+
+
+//
+//
+
+
+  onMount(async () => {
+ 
+onAuthStateChanged(auth, async (newUser) => {
+  if (unsubscribeCharacters) {
+    unsubscribeCharacters(); // Unsubscribe from the previous user's characters
+  }
+  
+  user = newUser;
+  if (user) {
+    unsubscribeCharacters = await checkUserDocument(user.uid);
+    navigate('/main'); // Navigate to the main page once the user is logged in
+  } else {
+    navigate('/login'); // Navigate to the login page if the user is logged out
+  }
+  googleUser.set(user); // Update the googleUser store with the new user value
+  console.log($googleUser);
+});
+  });
+</script>
+<script context="module">
+  function fetchCharacters(charactersCollectionRef) {
   const q = query(charactersCollectionRef, orderBy('createdAt'));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     const characters = [];
@@ -39,15 +69,13 @@ function fetchCharacters(charactersCollectionRef) {
       characters.push({ id: doc.id, ...doc.data() });
     });
     userData.set(characters);
-    console.log($userData)
+    console.log(userData)
   });
   return unsubscribe;
 }
 
-
-//
 // Check if user has a character
-async function checkUserDocument(uid) {
+export async function checkUserDocument(uid) {
   const userDocRef = doc(db, 'Dnd', uid);
   const userDocSnap = await getDoc(userDocRef);
   let unsubscribeCharacters;
@@ -77,25 +105,6 @@ async function checkUserDocument(uid) {
   return unsubscribeCharacters;
 }
 
-
-  onMount(async () => {
- 
-onAuthStateChanged(auth, async (newUser) => {
-  if (unsubscribeCharacters) {
-    unsubscribeCharacters(); // Unsubscribe from the previous user's characters
-  }
-  
-  user = newUser;
-  if (user) {
-    unsubscribeCharacters = await checkUserDocument(user.uid);
-    navigate('/main'); // Navigate to the main page once the user is logged in
-  } else {
-    navigate('/login'); // Navigate to the login page if the user is logged out
-  }
-  googleUser.set(user); // Update the googleUser store with the new user value
-  console.log($googleUser);
-});
-  });
 </script>
 
 {#if user}
