@@ -1,29 +1,31 @@
 <script>
-  import GoogleAuth from './GoogleAuth.svelte';
-  import { googleUser } from './storeUser';
-  import { onMount } from 'svelte';
+  import GoogleAuth from "./GoogleAuth.svelte";
+  import { googleUser } from "./storeUser";
+  import { onMount } from "svelte";
+  import { Router, Route, Link } from "svelte-routing";
+  import { signOut } from "firebase/auth";
+  import { auth } from "./firebase";
+  import { navigate } from "svelte-routing";
+  import Homepage from "./pages/Homepage.svelte";
 
-  let currentUser = null;
-
-  onMount(() => {
-    const unsubscribe = googleUser.subscribe((value) => {
-      currentUser = value;
-    });
-
-    return unsubscribe;
-  });
+  const logout = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
 </script>
 
 <main>
-  <div class="flex gap-2 p-4 items-center justify-center">
-    {#if currentUser !== null && currentUser.email !== undefined}
-    <p>Logged in as {currentUser.email}</p> 
-    {/if}
-    <GoogleAuth />
-  </div>
-
+  <Router>
+    <nav>
+      <Link to="/login">Login</Link>
+      <Link to="/main">Main</Link>
+      {#if $googleUser}
+        <button on:click={logout}>Logout</button>
+      {/if}
+    </nav>
+    <div>
+      <Route path="/login" component={GoogleAuth} />
+      <Route path="/main" component={Homepage} />
+    </div>
+  </Router>
 </main>
-
-
-
-

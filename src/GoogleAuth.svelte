@@ -11,6 +11,7 @@
   import { googleUser } from "./storeUser";
   import { collection, addDoc, setDoc, doc, getDoc, query, onSnapshot, orderBy, serverTimestamp } from "firebase/firestore";
   import { userData } from './storeUser';
+  import { navigate } from 'svelte-routing';
 
   let user = null;
   let unsubscribeCharacters;
@@ -87,18 +88,21 @@ onAuthStateChanged(auth, async (newUser) => {
   user = newUser;
   if (user) {
     unsubscribeCharacters = await checkUserDocument(user.uid);
+    navigate('/main'); // Navigate to the main page once the user is logged in
+  } else {
+    navigate('/login'); // Navigate to the login page if the user is logged out
   }
   googleUser.set(user); // Update the googleUser store with the new user value
-  //console.log($googleUser);
+  console.log($googleUser);
 });
   });
 </script>
 
 {#if user}
-  <button
+<!--   <button
     class="px-6 py-2 rounded bg-rose-600 text-white hover:bg-rose-500"
     on:click={logout}>Logout</button
-  >
+  > -->
 {:else}
   <div
     class="inset-0 w-screen h-screen m-auto flex items-center justify-center"
