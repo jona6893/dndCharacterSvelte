@@ -34,9 +34,7 @@
 </script>
 
 {#if user}
-	<p>Signed in with {user.providerData[0].providerId}!</p>
-  <span class="text-red-500">{user.displayName}</span>
-	<button on:click={logout}>Logout</button>
+	<button class="px-6 py-2 rounded bg-rose-600 text-white hover:bg-rose-500" on:click={logout}>Logout</button>
 {:else}
 
 <div class="inset-0 w-screen h-screen m-auto flex items-center justify-center">
