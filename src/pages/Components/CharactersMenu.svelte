@@ -20,7 +20,7 @@ let showChar2 = false
         {/if}
     
     </div>
-    <div  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 {showChar ? 'flex':'hidden' }">
+    <div  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 {showChar2 ? 'flex':'hidden' }">
         <div class="bg-slate-600 flex flex-col p-4">
             <button on:click={()=>showChar2 = false}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
