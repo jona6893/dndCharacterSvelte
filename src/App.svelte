@@ -8,6 +8,8 @@
   import { navigate } from "svelte-routing";
   import Homepage from "./pages/Homepage.svelte";
   import { checkUserDocument } from './GoogleAuth.svelte';
+  import { space } from "svelte/internal";
+  import CharactersMenu from "./pages/Components/CharactersMenu.svelte";
 
    let unsubscribeCharacters;
 
@@ -38,12 +40,13 @@
 
 <main>
   <Router>
-    <nav>
-      <Link to="/login">Login</Link>
-      <Link to="/main">Main</Link>
+    <nav class="bg-slate-800 text-white font-Outfit p-4 flex gap-4 items-center justify-between	">
       {#if $googleUser}
-        <button on:click={logout}>Logout</button>
-        <span>User: {$googleUser.displayName} </span>
+        <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer" on:click={logout}>Logout</button>
+        <div class="flex gap-2 items-center ">
+          <CharactersMenu/>
+          <p class="bg-slate-600 p-2 rounded"><span class="font-thin">user: </span>{$googleUser.displayName} </p>
+        </div>
       {/if}
     </nav>
     <div>
