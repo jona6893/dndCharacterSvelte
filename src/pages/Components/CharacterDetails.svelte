@@ -2,7 +2,7 @@
 import  {currentCharacter} from "../../storeUser"
 </script>
 
-<div class="bg-slate-400 text-white">
+<div  class="bg-slate-400 text-white">
     {#if $currentCharacter !== null && $currentCharacter.name!== undefined}
     <h2>Character's name: {$currentCharacter.name}</h2>
     <p>Level: {$currentCharacter.level}</p>
