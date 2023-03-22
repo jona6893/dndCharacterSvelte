@@ -5,6 +5,22 @@
     },500)
 let showChar = false
 let showChar2 = false
+
+function closePopup() {
+    showChar2 = false;
+  }
+function handleChildClick(event) {
+    event.stopPropagation();
+  }
+function handleKeypress() {
+
+  }
+function handleCharacterCreate(event) {
+   
+}
+
+
+
 </script>
 
 <div class="relative">
@@ -20,29 +36,32 @@ let showChar2 = false
         {/if}
     
     </div>
-    <div  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 {showChar2 ? 'flex':'hidden' }">
-        <div class="bg-slate-600 flex flex-col p-4">
+    <div on:click={closePopup} on:keydown={handleKeypress} class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 {showChar2 ? 'flex':'hidden' }">
+        <div class="bg-slate-600 flex flex-col p-4" on:click={handleChildClick} on:keydown={handleKeypress}>
             <button on:click={()=>showChar2 = false}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 </svg>
 </button>
-            <form action="" class="flex flex-col p-4 gap-4">
-                <label for="">
-                    Character Name
-                    <input required type="text">
+            <form action="" class="flex flex-col p-4 gap-4 items-end" on:submit={handleCharacterCreate}>
+                <label for="" class="grid gap-1 text-sm font-thin">
+                    Character Name:
+                    <input name="name" required type="text" class="text-base font-normal text-black p-1 rounded">
                 </label>
-                    Level
-                <label for="">
-                    Race
-                    <input required type="text">
+                <label for="" class="grid gap-1 text-sm font-thin">
+                    Level:
+                    <input name="level" required type="text" class="text-base font-normal text-black p-1 rounded">
                 </label>
-                <label for="">
-                    Class
-                    <input required type="text">
+                <label for="" class="grid gap-1 text-sm font-thin">
+                    Race:
+                    <input name="race" required type="text" class="text-base font-normal text-black p-1 rounded">
                 </label>
-                <label for="">
-                    Alignment
-                    <input type="text">
+                <label for="" class="grid gap-1 text-sm font-thin">
+                    Class:
+                    <input name="class" required type="text" class="text-base font-normal text-black p-1 rounded">
+                </label>
+                <label for="" class="grid gap-1 text-sm font-thin">
+                    Alignment:
+                    <input name="alignment" type="text" class="text-base font-normal text-black p-1 rounded">
                 </label>
                 <button type="submit">Create</button>
             </form>
