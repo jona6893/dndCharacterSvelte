@@ -1,8 +1,9 @@
 <script>
   import { onMount } from 'svelte';
   import { db } from '../../firebase';
-    import {userData} from '../../storeUser'
-   import { collection, doc, addDoc } from "firebase/firestore";
+    import {userData, googleUser} from '../../storeUser'
+   import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
+   import { checkUserDocument } from '../../GoogleAuth.svelte';
     setTimeout(() => {
         console.log($userData)
     },500)
@@ -62,7 +63,7 @@ getDndAlignments();
   async function addCharacter(character) {
     if (userData) {
       try {
-        const charactersRef = collection(doc(db, 'Dnd', $userData.uid), 'Characters');
+        const charactersRef = collection(doc(db, 'Dnd', $googleUser.uid), 'Characters');
         await addDoc(charactersRef, character);
       } catch (error) {
         console.error("Error adding character:", error);
@@ -70,10 +71,12 @@ getDndAlignments();
     } else {
       console.error("User not signed in");
     }
+    checkUserDocument($googleUser.uid)
   }
 
   async function createNewCharacter(event) {
     event.preventDefault();
+    showChar2 = false
     let name = event.target.name.value
     let race = event.target.race.value
     let raceSelct = event.target.raceSelct.value
@@ -95,6 +98,7 @@ getDndAlignments();
 
 
     const newCharacter = {
+      createdAt: serverTimestamp(),
       name,
       level,
       ...(race.length <= 0 ? { race: raceSelct } : { race: race }),
