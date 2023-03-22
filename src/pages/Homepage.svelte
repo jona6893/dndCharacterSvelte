@@ -7,7 +7,7 @@
 
 
 {#if $userData}
-<div transition:fade>
+<div in:fade>
     <CharacterDetails/>
     <Stats />
 </div>
