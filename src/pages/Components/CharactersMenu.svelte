@@ -125,7 +125,7 @@ getDndAlignments();
         {#if  $userData !== null }
         <span class="p-2 font-thin">Characters:</span>
 {#each $userData as data}
-            <span class="hover:bg-slate-500 p-2 cursor-pointer">{data.id}</span>
+            <span class="hover:bg-slate-500 p-2 cursor-pointer">{data.name}</span>
         {/each}
         {/if}
     

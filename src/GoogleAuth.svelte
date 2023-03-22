@@ -96,6 +96,11 @@ export async function checkUserDocument(uid) {
     await addDoc(charactersCollectionRef, {
       /* other character data */
       createdAt: serverTimestamp(),
+      name:'New Character',
+      level: 1,
+      race: 'Human',
+      class: 'Warrior',
+      alignment: 'Neutral',
     });
 
     // Fetch characters and update the userData store
