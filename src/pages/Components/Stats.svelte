@@ -25,7 +25,7 @@ const skills = [
 </script>
 
 <div class="bg-slate-400 min-w-min w-72 grid gap-2 justify-items-start p-4 rounded text-white">
-    {#if currentCharacter !== null}
+    {#if $currentCharacter !== null && $currentCharacter.name !== undefined}
     <h2>{$currentCharacter.name}</h2>
     {/if}
     {#each skills as skill}
