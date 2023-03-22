@@ -1,7 +1,8 @@
 <script>
-    
+    import Stats from "./Components/Stats.svelte";
 </script>
 
-<div>
 
+<div>
+    <Stats />
 </div>

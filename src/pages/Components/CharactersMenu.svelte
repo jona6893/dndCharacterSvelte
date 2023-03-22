@@ -4,15 +4,18 @@
     import {userData, googleUser} from '../../storeUser'
    import { collection, doc, addDoc, serverTimestamp } from "firebase/firestore";
    import { checkUserDocument } from '../../GoogleAuth.svelte';
-    setTimeout(() => {
-        console.log($userData)
-    },500)
+  import {currentCharacter} from "../../storeUser"
+
+// The current Selected Character
+let selectedCharacter = 0
+//Popup variables
 let showChar = false
 let showChar2 = false
-
+// Character values
 let classes;
 let races;
 let alignments;
+
 
 function closePopup() {
     showChar2 = false;
@@ -26,9 +29,27 @@ function handleKeypress() {
  function handleCharacterCreate(event) {
     event.preventDefault();
 
-   console.log(event.target.name.value)
 } 
+function updateCurrentCharacter(index) {
+  selectedCharacter = index
+    userData.subscribe(($userData) => {
+    // Set the currentCharacter store value based on the selected index
+    if($userData != null)  {
+      currentCharacter.set($userData[selectedCharacter]);
+    }
+  });
+}
+
+
 onMount(() =>{
+
+  userData.subscribe(($userData) => {
+    // Set the currentCharacter store value based on the selected index
+    if($userData != null)  {
+      currentCharacter.set($userData[selectedCharacter]);
+    }
+  });
+
 //fetch Data
 async function fetchData(endpoint) {
   const response = await fetch(`https://www.dnd5eapi.co/api/${endpoint}`);
@@ -38,7 +59,7 @@ async function fetchData(endpoint) {
 //fetch Classes
 async function getDndClasses() {
   classes = await fetchData('classes');
-  console.log(classes.results);
+  //console.log(classes.results);
 }
 // fetch Races
 async function getDndRaces() {
@@ -55,9 +76,6 @@ getDndRaces();
 getDndClasses();
 getDndAlignments();
 })
-
-
-
 
 
   async function addCharacter(character) {
@@ -96,7 +114,6 @@ getDndAlignments();
         alignmentSelct = ''
     }
 
-
     const newCharacter = {
       createdAt: serverTimestamp(),
       name,
@@ -124,8 +141,8 @@ getDndAlignments();
     <div  on:mouseleave={()=>showChar = false} class="absolute flex-col bg-slate-600 rounded p-4 top-[110%] left-[52%] {showChar ? 'flex':'hidden' }">
         {#if  $userData !== null }
         <span class="p-2 font-thin">Characters:</span>
-{#each $userData as data}
-            <span class="hover:bg-slate-500 p-2 cursor-pointer">{data.name}</span>
+{#each $userData as data, index}
+            <button on:click={()=>updateCurrentCharacter(index)} class="hover:bg-slate-500 p-2 cursor-pointer">{data.name}</button>
         {/each}
         {/if}
     

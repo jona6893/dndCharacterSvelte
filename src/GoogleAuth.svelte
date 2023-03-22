@@ -69,7 +69,7 @@ onAuthStateChanged(auth, async (newUser) => {
       characters.push({ id: doc.id, ...doc.data() });
     });
     userData.set(characters);
-    console.log(userData)
+    //console.log(userData)
   });
   return unsubscribe;
 }

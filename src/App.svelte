@@ -38,7 +38,7 @@
 
 </script>
 
-<main>
+<main >
   <Router>
     <nav class="bg-slate-800 text-white font-Outfit p-4 flex gap-4 items-center justify-between	">
       {#if $googleUser}
