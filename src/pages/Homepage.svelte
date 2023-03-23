@@ -3,6 +3,13 @@
     import Stats from "./Components/Stats.svelte";
     import {userData} from '../storeUser'
     import {fade} from 'svelte/transition'
+
+setTimeout(() => {
+    console.log($userData)
+
+}, 1000);
+
+
 </script>
 
 

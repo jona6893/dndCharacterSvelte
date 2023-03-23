@@ -31,7 +31,7 @@ const skills = [
     {#each skills as skill}
         <label for="" class="flex flex-row-reverse gap-2">
             {skill}
-            <input class="max-w-[3rem] bg-transparent border-b text-center" type="text">
+            <input value="" class="max-w-[3rem] bg-transparent border-b text-center" type="text">
             <input type="checkbox">
         </label>
     {/each}
