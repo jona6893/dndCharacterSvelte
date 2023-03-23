@@ -1,13 +1,10 @@
 <script>
   import CharacterDetails from "./Components/CharacterDetails.svelte";
+    import Skills from "./Components/Skills.svelte";
     import Stats from "./Components/Stats.svelte";
     import {userData} from '../storeUser'
     import {fade} from 'svelte/transition'
 
-setTimeout(() => {
-    console.log($userData)
-
-}, 1000);
 
 
 </script>
@@ -16,6 +13,7 @@ setTimeout(() => {
 {#if $userData}
 <div in:fade>
     <CharacterDetails/>
+    <Skills />
     <Stats />
 </div>
 {:else}

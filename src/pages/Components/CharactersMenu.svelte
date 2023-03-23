@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { db } from "../../firebase";
   import { userData, googleUser } from "../../storeUser";
-  import { collection, doc, addDoc, serverTimestamp, deleteDoc } from "firebase/firestore";
+  import { collection, doc, addDoc, serverTimestamp, deleteDoc, updateDoc } from "firebase/firestore";
   import { checkUserDocument } from "../../GoogleAuth.svelte";
   import { currentCharacter } from "../../storeUser";
   import {fade, scale} from 'svelte/transition';
@@ -164,9 +164,31 @@
     console.error("Error deleting character: ", error);
   } 
 }
+
+//
+// Update a character in the database
+async function updateCurrentCharacterInFirebase() {
+  const userDocRef = doc(db, 'Dnd', $googleUser.uid);
+  const characterId = $userData[selectedCharacter].id;
+  const characterRef = doc(userDocRef, 'Characters', characterId);
+  console.log(characterId)
+   try {
+
+    const characterData = {
+      ...$currentCharacter,
+      updatedAt: new Date().toISOString(),
+    };
+
+    await updateDoc(characterRef, characterData);
+    console.log('Current character updated successfully in Firebase');
+  } catch (error) {
+    console.error('Error updating current character in Firebase: ', error);
+  } 
+}
 </script>
 
 <div class="relative">
+  <button on:click={updateCurrentCharacterInFirebase}>Update</button>
   <button
     on:click={() => (showChar2 = !showChar2)}
     class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer"
@@ -177,7 +199,6 @@
     class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer"
     >View Characters</button
   >
-
   <div
     on:mouseleave={() => (showChar = false)}
     class="absolute flex-col bg-slate-600 rounded p-4 top-[110%] left-[25%] w-full shadow {showChar
@@ -191,6 +212,7 @@
         <div
           class="flex justify-between m-1 bg-slate-500 hover:bg-slate-400 rounded"
         >
+       
           <button
             on:click={() => updateCurrentCharacter(index)}
             class="p-2 rounded grid grid-cols-2 gap-2 justify-items-start"
