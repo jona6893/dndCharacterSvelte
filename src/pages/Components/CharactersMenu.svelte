@@ -341,7 +341,7 @@ async function updateCurrentCharacterInFirebase() {
             id=""
             class="text-base font-normal text-black p-1 rounded"
           >
-            <option value="select">Select a Race</option>
+            <option value="select">Select a Class</option>
             {#if classes !== undefined}
               {#each classes.results as klass}
                 <option value={klass.name}>{klass.name}</option>
@@ -365,7 +365,7 @@ async function updateCurrentCharacterInFirebase() {
             id=""
             class="text-base font-normal text-black p-1 rounded"
           >
-            <option value="select">Select a Race</option>
+            <option value="select">Select a Alignment</option>
             {#if alignments !== undefined}
               {#each alignments.results as align}
                 <option value={align.name}>{align.name}</option>
