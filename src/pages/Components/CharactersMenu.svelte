@@ -5,7 +5,7 @@
   import { collection, doc, addDoc, serverTimestamp, deleteDoc } from "firebase/firestore";
   import { checkUserDocument } from "../../GoogleAuth.svelte";
   import { currentCharacter } from "../../storeUser";
-  import { space } from "svelte/internal";
+  import {fade, scale} from 'svelte/transition';
   import { get } from "svelte/store";
   // The current Selected Character
   let selectedCharacter = 0;
@@ -226,12 +226,12 @@
     {/if}
   </div>
   <!-- Character Create Popup -->
+  {#if showChar2}
   <div
+  transition:fade
     on:click={closePopup}
     on:keydown={handleKeypress}
-    class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 {showChar2
-      ? 'flex'
-      : 'hidden'}"
+    class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0"
   >
     <div
       class="bg-slate-600 min-w-min w-80 flex flex-col p-4 rounded shadow"
@@ -354,15 +354,15 @@
       </form>
     </div>
   </div>
+  {/if}
 </div>
 
 <!-- Delete Popup -->
-<div
+{#if showDelete}
+<div transition:fade
   on:click={closePopupDelete}
   on:keydown={handleKeypress}
-  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 {showDelete
-    ? 'flex'
-    : 'hidden'}"
+  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0"
 >
   <div
     on:click={handleChildClick}
@@ -379,3 +379,4 @@
     </div>
   </div>
 </div>
+{/if}
