@@ -133,7 +133,7 @@
           <li>Spell</li>
           <li>Time</li>
           <li>Range</li>
-          <li>HIT/DC</li>
+          <li>Level</li>
           <li>Effect</li>
         </ul>
         {#if currentCharacter && $currentCharacter.spells}
@@ -141,17 +141,38 @@
             <ul
               class="grid grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center"
             >
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = true)}>{spell.name}</li>
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = true)}>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = true)}
+              >
+                {spell.name}
+              </li>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = true)}
+              >
                 {spell.casting_time}
               </li>
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = true)}>{spell.range}</li>
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = true)}>-+</li>
-              <li on:keydown={handleKeypress} on:click={() => {
-            viewKnownSpell = !viewKnownSpell;
-              selectedSpell = spell;
-
-          }} class="hover:bg-blue-500 rounded-tr rounded-br p-2">
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = true)}
+              >
+                {spell.range}
+              </li>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = true)}
+              >
+                {spell.level}
+              </li>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => {
+                  viewKnownSpell = !viewKnownSpell;
+                  selectedSpell = spell;
+                }}
+                class="hover:bg-blue-500 rounded-tr rounded-br p-2"
+              >
                 {spell.damage?.damage_type?.name ?? "view"}
               </li>
             </ul>
@@ -165,7 +186,7 @@
           <li>Spell</li>
           <li>Time</li>
           <li>Range</li>
-          <li>HIT/DC</li>
+          <li>Level</li>
           <li>Effect</li>
         </ul>
         {#if currentCharacter && $currentCharacter.spells}
@@ -173,16 +194,38 @@
             <ul
               class="grid grid-cols-5 text-xs text-center hover:bg-red-500 hover:text-white rounded cursor-pointer items-center"
             >
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = false)}>{spell.name}</li>
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = false)}>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = false)}
+              >
+                {spell.name}
+              </li>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = false)}
+              >
                 {spell.casting_time}
               </li>
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = false)}>{spell.range}</li>
-              <li on:keydown={handleKeypress} on:click={() => (spell.equipped = false)}>{spell.level}</li>
-              <li on:keydown={handleKeypress} on:click={() => {
-            viewKnownSpell = !viewKnownSpell;
-              selectedSpell = spell;
-          }} class="hover:bg-blue-500 rounded-tr rounded-br p-2">
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = false)}
+              >
+                {spell.range}
+              </li>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => (spell.equipped = false)}
+              >
+                {spell.level}
+              </li>
+              <li
+                on:keydown={handleKeypress}
+                on:click={() => {
+                  viewKnownSpell = !viewKnownSpell;
+                  selectedSpell = spell;
+                }}
+                class="hover:bg-blue-500 rounded-tr rounded-br p-2"
+              >
                 {spell.damage?.damage_type?.name ?? "view"}
               </li>
             </ul>
@@ -191,119 +234,119 @@
       </div>
       <!-- view known or Equipped spell info popup -->
       {#if viewKnownSpell}
-      <div class="absolute w-full h-full bg-gray-100 rounded p-8 overflow-auto">
-        <!-- Close Button -->
-        <button
-          class="absolute hover:bg-gray-200 rounded-full top-[5px] left-[5px] border-2 border-black"
-          on:click={() => {
-            viewKnownSpell = !viewKnownSpell;
-          }}
+        <div
+          class="absolute w-full h-full bg-gray-100 rounded p-8 overflow-auto"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
+          <!-- Close Button -->
+          <button
+            class="absolute hover:bg-gray-200 rounded-full top-[5px] left-[5px] border-2 border-black"
+            on:click={() => {
+              viewKnownSpell = !viewKnownSpell;
+            }}
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-        <div class="pb-8 overflow-auto flex flex-col gap-2 p-2 rounded">
-          <p>Spell: {selectedSpell.name ?? ""}</p>
-          <p>
-            Description: {selectedSpell.desc
-              ? selectedSpell.desc.join(", ")
-              : ""}
-          </p>
-          <p>Range: {selectedSpell.range ? selectedSpell.range : ""}</p>
-          <p>
-            Casting Time: {selectedSpell.casting_time
-              ? selectedSpell.casting_time
-              : ""}
-          </p>
-          <p>
-            Duration: {selectedSpell.duration
-              ? selectedSpell.duration
-              : ""}
-          </p>
-          <p>Level: {selectedSpell.level ? selectedSpell.level : ""}</p>
-          {#if selectedSpell.higher_level}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <div class="pb-8 overflow-auto flex flex-col gap-2 p-2 rounded">
+            <p>Spell: {selectedSpell.name ?? ""}</p>
             <p>
-              Higher Level: {selectedSpell.higher_level
-                ? selectedSpell.higher_level
+              Description: {selectedSpell.desc
+                ? selectedSpell.desc.join(", ")
                 : ""}
             </p>
-          {/if}
-          {#if selectedSpell.damage}
-            <ul>
-              <li>Damage</li>
-              <li>Type: {selectedSpell.damage.damage_type.name}</li>
-              <li>Damage At Slot Level:</li>
-              {#if selectedSpell.damage.damage_at_slot_level}
-                {#each Object.entries(selectedSpell.damage.damage_at_slot_level) as [slot, damage]}
-                  <li>Slot {slot}: {damage}</li>
-                {/each}
-              {/if}
-              {#if selectedSpell.damage.damage_at_character_level}
-                {#each Object.entries(selectedSpell.damage.damage_at_character_level) as [slot, damage]}
-                  <li>Slot {slot}: {damage}</li>
-                {/each}
-              {/if}
-            </ul>
-          {/if}
-          {#if selectedSpell.area_of_effect}
-            <ul class="flex gap-2">
-              <li>Area of Effect:</li>
-              <li>
-                Type: {selectedSpell.area_of_effect
-                  ? selectedSpell.area_of_effect.type
+            <p>Range: {selectedSpell.range ? selectedSpell.range : ""}</p>
+            <p>
+              Casting Time: {selectedSpell.casting_time
+                ? selectedSpell.casting_time
+                : ""}
+            </p>
+            <p>
+              Duration: {selectedSpell.duration ? selectedSpell.duration : ""}
+            </p>
+            <p>Level: {selectedSpell.level ? selectedSpell.level : ""}</p>
+            {#if selectedSpell.higher_level}
+              <p>
+                Higher Level: {selectedSpell.higher_level
+                  ? selectedSpell.higher_level
                   : ""}
-              </li>
-              <li>
-                Size: {selectedSpell.area_of_effect
-                  ? selectedSpell.area_of_effect.size
-                  : ""}
-              </li>
-            </ul>
-          {/if}
-          {#if selectedSpell.dc}
-            <ul>
-              <li>DC:</li>
-              <li>
-                Type: {selectedSpell.dc.dc_type.name
-                  ? selectedSpell.dc.dc_type.name
-                  : ""}
-              </li>
-              <li>
-                DC Success: {selectedSpell.dc.dc_success
-                  ? selectedSpell.dc.dc_success
-                  : ""}
-              </li>
-              <li>
-                Description: {selectedSpell.dc.desc
-                  ? selectedSpell.dc.desc
-                  : ""}
-              </li>
-            </ul>
-          {/if}
-          {#if selectedSpell.classes?.length > 0}
-            <ul class="flex gap-2">
-              <li>Classes:</li>
-              {#each selectedSpell.classes as klass}
+              </p>
+            {/if}
+            {#if selectedSpell.damage}
+              <ul>
+                <li>Damage</li>
+                <li>Type: {selectedSpell.damage.damage_type.name}</li>
+                <li>Damage At Slot Level:</li>
+                {#if selectedSpell.damage.damage_at_slot_level}
+                  {#each Object.entries(selectedSpell.damage.damage_at_slot_level) as [slot, damage]}
+                    <li>Slot {slot}: {damage}</li>
+                  {/each}
+                {/if}
+                {#if selectedSpell.damage.damage_at_character_level}
+                  {#each Object.entries(selectedSpell.damage.damage_at_character_level) as [slot, damage]}
+                    <li>Slot {slot}: {damage}</li>
+                  {/each}
+                {/if}
+              </ul>
+            {/if}
+            {#if selectedSpell.area_of_effect}
+              <ul class="flex gap-2">
+                <li>Area of Effect:</li>
                 <li>
-                  {klass.name},
+                  Type: {selectedSpell.area_of_effect
+                    ? selectedSpell.area_of_effect.type
+                    : ""}
                 </li>
-              {/each}
-            </ul>
-          {/if}
+                <li>
+                  Size: {selectedSpell.area_of_effect
+                    ? selectedSpell.area_of_effect.size
+                    : ""}
+                </li>
+              </ul>
+            {/if}
+            {#if selectedSpell.dc}
+              <ul>
+                <li>DC:</li>
+                <li>
+                  Type: {selectedSpell.dc.dc_type.name
+                    ? selectedSpell.dc.dc_type.name
+                    : ""}
+                </li>
+                <li>
+                  DC Success: {selectedSpell.dc.dc_success
+                    ? selectedSpell.dc.dc_success
+                    : ""}
+                </li>
+                <li>
+                  Description: {selectedSpell.dc.desc
+                    ? selectedSpell.dc.desc
+                    : ""}
+                </li>
+              </ul>
+            {/if}
+            {#if selectedSpell.classes?.length > 0}
+              <ul class="flex gap-2">
+                <li>Classes:</li>
+                {#each selectedSpell.classes as klass}
+                  <li>
+                    {klass.name},
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
         </div>
-      </div>
       {/if}
     </div>
     <!-- LIST OF SPELLS  -->

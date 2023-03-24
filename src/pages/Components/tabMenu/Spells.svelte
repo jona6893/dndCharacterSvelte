@@ -119,7 +119,7 @@
         {#if currentCharacter && $currentCharacter.spells}
           {#each $currentCharacter.spells.filter((spell) => spell.equipped === true) as spell, index}
             <ul
-              class="grid grid-cols-5 text-xs text-center rounded  items-center"
+              class="grid grid-cols-5 text-sm text-center rounded  items-center"
             >
               <li >{spell.name}</li>
               <li>
