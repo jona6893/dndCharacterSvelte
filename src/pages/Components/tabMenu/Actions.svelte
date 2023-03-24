@@ -40,7 +40,6 @@
       urls.map((url) => fetch("https://www.dnd5eapi.co" + url).then((res) => res.json()))
     );
     equipmentData = results.flatMap((result) => result.equipment);
-    console.log(equipmentData);
   } catch (error) {
     console.error("Error fetching data: ", error);
   }
