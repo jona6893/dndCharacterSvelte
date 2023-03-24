@@ -62,6 +62,7 @@
       const spellWithEquipped = {
         ...selectedItemData,
         equipped: false,
+        spellSlotLevel: null,
       };
 
       const spellExists = $currentCharacter.spells?.some(
@@ -142,24 +143,28 @@
               class="grid grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center"
             >
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = true)}
               >
                 {spell.name}
               </li>
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = true)}
               >
                 {spell.casting_time}
               </li>
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = true)}
               >
                 {spell.range}
               </li>
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = true)}
               >
@@ -184,7 +189,7 @@
         <p class="text-sm text-gray-700 text-center w-full">Equipped Spells</p>
         <ul class="grid grid-cols-5 text-xs text-gray-500 text-center mb-2">
           <li>Spell</li>
-          <li>Time</li>
+          <li>Slot</li>
           <li>Range</li>
           <li>Level</li>
           <li>Effect</li>
@@ -195,24 +200,44 @@
               class="grid grid-cols-5 text-xs text-center hover:bg-red-500 hover:text-white rounded cursor-pointer items-center"
             >
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = false)}
               >
                 {spell.name}
               </li>
-              <li
+              <select
+  name=""
+  id=""
+  class="bg-transparent cursor-pointer text-center h-full"
+  on:change={(e) => (spell.spellSlotLevel = e.target.value)}
+>
+  <option value="Cantrip" selected={spell.spellSlotLevel === "Cantrip"}>Cantrip</option>
+  <option value="1" selected={spell.spellSlotLevel === "1"}>1</option>
+  <option value="2" selected={spell.spellSlotLevel === "2"}>2</option>
+  <option value="3" selected={spell.spellSlotLevel === "3"}>3</option>
+  <option value="4" selected={spell.spellSlotLevel === "4"}>4</option>
+  <option value="5" selected={spell.spellSlotLevel === "5"}>5</option>
+  <option value="6" selected={spell.spellSlotLevel === "6"}>6</option>
+  <option value="7" selected={spell.spellSlotLevel === "7"}>7</option>
+  <option value="8" selected={spell.spellSlotLevel === "8"}>8</option>
+  <option value="9" selected={spell.spellSlotLevel === "9"}>9</option>
+</select>
+              <!-- <li
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = false)}
               >
                 {spell.casting_time}
-              </li>
+              </li>  -->
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = false)}
               >
                 {spell.range}
               </li>
               <li
+                class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = false)}
               >
