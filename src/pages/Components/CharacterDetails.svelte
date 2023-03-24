@@ -1,18 +1,15 @@
 <script>
 import  {currentCharacter} from "../../storeUser"
 
+// updates name class race level and alignment
 function updateDetails(e, field) {
     e.preventDefault();
 
           currentCharacter.update((character) => {
       return { ...character, [field]: e.target.value };
     });
-    
-    console.log($currentCharacter);
+
 }
-
-
-
     
 </script>
 
