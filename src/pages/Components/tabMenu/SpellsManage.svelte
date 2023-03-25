@@ -62,7 +62,7 @@
       const spellWithEquipped = {
         ...selectedItemData,
         equipped: false,
-        spellSlotLevel: null,
+        spellSlotLevel: "Cantrip",
       };
 
       const spellExists = $currentCharacter.spells?.some(
@@ -85,6 +85,14 @@
       console.log("No spell is selected.");
     }
     console.log($currentCharacter);
+  }
+  //
+  //
+  // Render the spell from known spells
+  function removeSpell(spellToRemove) {
+    $currentCharacter.spells = $currentCharacter.spells.filter(
+      (spell) => spell !== spellToRemove
+    );
   }
 
   onMount(fetchData);
@@ -132,15 +140,15 @@
         <p class="text-sm text-gray-700 text-center w-full">Known Spells</p>
         <ul class="grid grid-cols-5 text-xs text-gray-500 text-center mb-2">
           <li>Spell</li>
-          <li>Time</li>
           <li>Range</li>
           <li>Level</li>
           <li>Effect</li>
+          <li>Remove</li>
         </ul>
         {#if currentCharacter && $currentCharacter.spells}
           {#each $currentCharacter.spells.filter((spell) => spell.equipped === false) as spell, index}
             <ul
-              class="grid grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center"
+              class="grid group grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center"
             >
               <li
                 class="h-full flex items-center justify-center"
@@ -148,13 +156,6 @@
                 on:click={() => (spell.equipped = true)}
               >
                 {spell.name}
-              </li>
-              <li
-                class="h-full flex items-center justify-center"
-                on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = true)}
-              >
-                {spell.casting_time}
               </li>
               <li
                 class="h-full flex items-center justify-center"
@@ -176,10 +177,28 @@
                   viewKnownSpell = !viewKnownSpell;
                   selectedSpell = spell;
                 }}
-                class="hover:bg-blue-500 rounded-tr rounded-br p-2"
+                class="group-hover:bg-blue-500 rounded-tl rounded-bl  p-2"
               >
                 {spell.damage?.damage_type?.name ?? "view"}
               </li>
+              <button
+                class="flex justify-center items-center rounded-tr rounded-br h-full group-hover:bg-red-500"
+                on:click={() => removeSpell(spell)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                    />
+                  </svg>
+              </button>
             </ul>
           {/each}
         {/if}
@@ -197,7 +216,7 @@
         {#if currentCharacter && $currentCharacter.spells}
           {#each $currentCharacter.spells.filter((spell) => spell.equipped === true) as spell, index}
             <ul
-              class="grid grid-cols-5 text-xs text-center hover:bg-red-500 hover:text-white rounded cursor-pointer items-center"
+              class="grid group grid-cols-5 text-xs text-center hover:bg-red-500 hover:text-white rounded cursor-pointer items-center"
             >
               <li
                 class="h-full flex items-center justify-center"
@@ -207,28 +226,44 @@
                 {spell.name}
               </li>
               <select
-  name=""
-  id=""
-  class="bg-transparent cursor-pointer text-center h-full"
-  on:change={(e) => (spell.spellSlotLevel = e.target.value)}
->
-  <option value="Cantrip" selected={spell.spellSlotLevel === "Cantrip"}>Cantrip</option>
-  <option value="1" selected={spell.spellSlotLevel === "1"}>1</option>
-  <option value="2" selected={spell.spellSlotLevel === "2"}>2</option>
-  <option value="3" selected={spell.spellSlotLevel === "3"}>3</option>
-  <option value="4" selected={spell.spellSlotLevel === "4"}>4</option>
-  <option value="5" selected={spell.spellSlotLevel === "5"}>5</option>
-  <option value="6" selected={spell.spellSlotLevel === "6"}>6</option>
-  <option value="7" selected={spell.spellSlotLevel === "7"}>7</option>
-  <option value="8" selected={spell.spellSlotLevel === "8"}>8</option>
-  <option value="9" selected={spell.spellSlotLevel === "9"}>9</option>
-</select>
-              <!-- <li
-                on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = false)}
+                name=""
+                id=""
+                class="group-hover:bg-blue-500 bg-transparent cursor-pointer text-center h-full"
+                on:change={(e) => (spell.spellSlotLevel = e.target.value)}
               >
-                {spell.casting_time}
-              </li>  -->
+                <option
+                  value="Cantrip"
+                  selected={spell.spellSlotLevel === "Cantrip"}>Cantrip</option
+                >
+                <option value="1" selected={spell.spellSlotLevel === "1"}
+                  >1</option
+                >
+                <option value="2" selected={spell.spellSlotLevel === "2"}
+                  >2</option
+                >
+                <option value="3" selected={spell.spellSlotLevel === "3"}
+                  >3</option
+                >
+                <option value="4" selected={spell.spellSlotLevel === "4"}
+                  >4</option
+                >
+                <option value="5" selected={spell.spellSlotLevel === "5"}
+                  >5</option
+                >
+                <option value="6" selected={spell.spellSlotLevel === "6"}
+                  >6</option
+                >
+                <option value="7" selected={spell.spellSlotLevel === "7"}
+                  >7</option
+                >
+                <option value="8" selected={spell.spellSlotLevel === "8"}
+                  >8</option
+                >
+                <option value="9" selected={spell.spellSlotLevel === "9"}
+                  >9</option
+                >
+              </select>
+
               <li
                 class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
@@ -249,7 +284,7 @@
                   viewKnownSpell = !viewKnownSpell;
                   selectedSpell = spell;
                 }}
-                class="hover:bg-blue-500 rounded-tr rounded-br p-2"
+                class="group-hover:bg-blue-500 rounded-tr rounded-br p-2"
               >
                 {spell.damage?.damage_type?.name ?? "view"}
               </li>
