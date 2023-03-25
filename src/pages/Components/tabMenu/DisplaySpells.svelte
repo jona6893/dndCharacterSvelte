@@ -8,18 +8,30 @@
   // empty function to aviod errors
   function handleKeypress() {}
 
-  console.log(spellLevel)
+
+  function updateSpellSlotValue(value, index) {
+    console.log(value)
+    $currentCharacter.spellSlots[spellLevel].slot[index] = value;
+   console.log($currentCharacter.spellSlots[spellLevel].slot[index])
+  }
+  
 </script>
 
 
  {#if $currentCharacter.spells.filter((spell) => spell.equipped === true && spell.spellSlotLevel === spellLevel).length > 0}   
 <div class="grid grid-cols-6 font-bold text-xs border-b border-t">
     <span class="text-center">{spellLevel}</span>
-   {#if $currentCharacter.spellSlots}
-  {#each Array.from({length: $currentCharacter.spellSlots[spellLevel]}) as _, index}
-    <!-- <span class="text-center">Span {index + 1}</span> -->
-    <input  type="checkbox">
-  {/each}
+    {#if $currentCharacter.spellSlots}
+    <div class="col-span-5 flex gap-2"> 
+      <span class="font-normal">Spell Slot:</span>
+ {#each Array.from({length: $currentCharacter.spellSlots[spellLevel]?.level}) as _, index}
+  <input
+    type="checkbox"
+    checked={$currentCharacter.spellSlots[spellLevel].slot[index]}
+    on:change={(e) => updateSpellSlotValue(e.target.checked, index)}
+  >
+{/each} 
+</div>
 {/if}
 </div>
 {/if}

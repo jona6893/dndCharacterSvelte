@@ -11,6 +11,8 @@
   let showSpellsSlot = false;
   let slots = ['Cantrip',1,2,3,4,5,6,7,8,9]
   let slotUpdate = [0,0,0,0,0,0,0,0,0]
+
+  console.log($currentCharacter)
   //
   // Stop the popup from closing when the user clicks the children of the popup
   function handleChildClick(event) {
@@ -98,19 +100,25 @@
   }
 //update the spell slot level
   function incrementSpellSlot(index) {
-  $currentCharacter.spellSlots[index]++;
+  $currentCharacter.spellSlots[index].level++;
+  $currentCharacter.spellSlots[index].slot.push(false)
 }
 //update the spell slot level
 function decrementSpellSlot(index) {
-  if ($currentCharacter.spellSlots[index] > 0) {
-    $currentCharacter.spellSlots[index]--;
+
+  if ($currentCharacter.spellSlots[index].level > 0) {
+    $currentCharacter.spellSlots[index].level--;
+    $currentCharacter.spellSlots[index].slot--;
   }
 }
 
   onMount(fetchData);
   onMount(() => {
   if ($currentCharacter && !$currentCharacter.spellSlots) {
-    $currentCharacter.spellSlots = Array(10).fill(0);
+    $currentCharacter.spellSlots = Array.from({ length: 10 }, (_, index) => ({
+      level: 0,
+      slot: [],
+    }));
   }
 });
 </script>
@@ -560,6 +568,7 @@ function decrementSpellSlot(index) {
         {/if}
         <!--  <pre>{JSON.stringify(selectedItemData, null, 2)}</pre>  -->
       </div>
+    <!-- MANAGE SPELLSLOTS -->
       {#if showSpellsSlot}
         <div
           on:click={() => {
@@ -595,15 +604,15 @@ function decrementSpellSlot(index) {
               </svg>
             </button>
             <div class="grid grid-cols-3 gap-2 w-full items-center justify-items-center justify-center ">
-            {#each slots as slot, index}
+            {#each $currentCharacter?.spellSlots as slot, index}
             <div class="grid justify-items-center gap-2">
-              <span>Level {slot}</span>
+              <span>Level {index}</span>
               <div class="flex gap-4">
-                {#if slot !== 'Cantrip'}
+                
             <button class="px-2 bg-green-500 hover:bg-green-400 rounded text-white" on:click={() => incrementSpellSlot(index)}>+</button>
-            <span>{$currentCharacter?.spellSlots !== undefined ? $currentCharacter?.spellSlots[index] : 0}</span>
+            <span>{slot.level}</span>
             <button class="px-2 bg-red-500 hover:bg-red-400 rounded text-white" on:click={() => decrementSpellSlot(index)}>-</button>
-            {/if}
+            
           </div>
             </div>
             {/each}
