@@ -1,5 +1,6 @@
 <script>
   import { fade } from "svelte/transition";
+  import { fly } from 'svelte/transition';
   import { onMount } from "svelte";
   import { currentCharacter } from "../../../storeUser";
   import Spells from "./Spells.svelte";
@@ -173,14 +174,17 @@ function decrementSpellSlot(index) {
         {#if currentCharacter && $currentCharacter.spells}
           {#each $currentCharacter.spells.filter((spell) => spell.equipped === false) as spell, index}
             <ul
-              class="grid group grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center"
-            >
+            transition:fly="{{ y: 25, duration: 300 }}"
+              class="grid group grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center" >
               <li
-                class="h-full flex items-center justify-center"
+                class="h-full w-full grid group grid-cols-[10px_minmax(100%,_1fr)_100px] items-center justify-start gap-2"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = true)}
-              >
-                {spell.name}
+              ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-transparent group-hover:text-white">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+</svg>
+
+                <span class="w-full break-words">{spell.name}</span>
               </li>
               <li
                 class="h-full flex items-center justify-center"
@@ -242,14 +246,18 @@ function decrementSpellSlot(index) {
         {#if currentCharacter && $currentCharacter.spells}
           {#each $currentCharacter.spells.filter((spell) => spell.equipped === true) as spell, index}
             <ul
+            transition:fly="{{ y: 25, duration: 300 }}"
               class="grid group grid-cols-5 text-xs text-center hover:bg-red-500 hover:text-white rounded cursor-pointer items-center"
             >
-              <li
-                class="h-full flex items-center justify-center"
+                <li
+                class="h-full w-full grid group grid-cols-[10px_minmax(100%,_1fr)_100px] items-center justify-start gap-2 text-left"
                 on:keydown={handleKeypress}
                 on:click={() => (spell.equipped = false)}
-              >
-                {spell.name}
+              ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-transparent group-hover:text-white">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+</svg>
+
+                <span class="w-[90%] break-words">{spell.name}</span>
               </li>
               <select
                 name=""
