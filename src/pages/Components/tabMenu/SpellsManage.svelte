@@ -8,7 +8,9 @@
   let viewKnownSpell = false;
   let selectedSpell = null;
   let curSelectedItem = null;
-
+  let showSpellsSlot = false;
+  let slots = ['Cantrip',1,2,3,4,5,6,7,8,9]
+  let slotUpdate = [0,0,0,0,0,0,0,0,0]
   //
   // Stop the popup from closing when the user clicks the children of the popup
   function handleChildClick(event) {
@@ -94,8 +96,23 @@
       (spell) => spell !== spellToRemove
     );
   }
+//update the spell slot level
+  function incrementSpellSlot(index) {
+  $currentCharacter.spellSlots[index]++;
+}
+//update the spell slot level
+function decrementSpellSlot(index) {
+  if ($currentCharacter.spellSlots[index] > 0) {
+    $currentCharacter.spellSlots[index]--;
+  }
+}
 
   onMount(fetchData);
+  onMount(() => {
+  if ($currentCharacter && !$currentCharacter.spellSlots) {
+    $currentCharacter.spellSlots = Array(10).fill(0);
+  }
+});
 </script>
 
 <div
@@ -183,21 +200,22 @@
               </li>
               <button
                 class="flex justify-center items-center rounded-tr rounded-br h-full group-hover:bg-red-500"
-                on:click={() => removeSpell(spell)}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                    />
-                  </svg>
+                on:click={() => removeSpell(spell)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
               </button>
             </ul>
           {/each}
@@ -425,6 +443,12 @@
         >
           Add Spell
         </button>
+        <button
+          on:click={() => (showSpellsSlot = !showSpellsSlot)}
+          class="bg-green-500 hover:bg-green-400 text-white p-2 rounded mb-1"
+        >
+          Spell Slots
+        </button>
       </div>
       <!-- Rendered list of spells -->
       <ul class="w-full h-1/2 pb-8 overflow-auto border p-1 rounded">
@@ -536,6 +560,57 @@
         {/if}
         <!--  <pre>{JSON.stringify(selectedItemData, null, 2)}</pre>  -->
       </div>
+      {#if showSpellsSlot}
+        <div
+          on:click={() => {
+            showSpellsSlot = !showSpellsSlot;
+          }}
+          on:keydown={handleKeypress}
+          class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-center"
+        >
+          <div
+            on:click={handleChildClick}
+            on:keydown={handleKeypress}
+            class="w-9/12 h-4/6 bg-white text-black flex gap-2 overflow-auto justify-between p-8 rounded relative"
+          >
+            <!-- Close Button -->
+            <button
+              class="absolute hover:bg-gray-200 rounded-full top-[5px] left-[5px] border-2 border-black"
+              on:click={() => {
+                showSpellsSlot = !showSpellsSlot;
+              }}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <div class="grid grid-cols-3 gap-2 w-full items-center justify-items-center justify-center ">
+            {#each slots as slot, index}
+            <div class="grid justify-items-center gap-2">
+              <span>Level {slot}</span>
+              <div class="flex gap-4">
+                {#if slot !== 'Cantrip'}
+            <button class="px-2 bg-green-500 hover:bg-green-400 rounded text-white" on:click={() => incrementSpellSlot(index)}>+</button>
+            <span>{$currentCharacter?.spellSlots !== undefined ? $currentCharacter?.spellSlots[index] : 0}</span>
+            <button class="px-2 bg-red-500 hover:bg-red-400 rounded text-white" on:click={() => decrementSpellSlot(index)}>-</button>
+            {/if}
+          </div>
+            </div>
+            {/each}
+            </div>
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 </div>

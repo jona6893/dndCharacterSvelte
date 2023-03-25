@@ -2,12 +2,14 @@
 
   import { onMount } from "svelte";
   import { currentCharacter } from '../../../storeUser';
+  import DisplaySpells from "./DisplaySpells.svelte";
   import SpellsManage from "./SpellsManage.svelte";
   import ViewSpell from "./ViewSpell.svelte";
 
   let spellsPopup = false;
   let viewKnownSpell = false;
   let selectedSpell = null
+
 
    //
   // Stop the popup from closing when the user clicks the children of the popup
@@ -109,7 +111,8 @@
       }}>MANAGE</button>
   </div>
   <div class="relative">
-<ul class="grid grid-cols-5 text-xs text-center mb-2">
+<ul class="grid grid-cols-6 text-xs text-center mb-2">
+          <li>Level</li>
           <li>Spell</li>
           <li>Time</li>
           <li>Range</li>
@@ -118,27 +121,21 @@
         </ul>
 
         {#if currentCharacter && $currentCharacter.spells}
-          <span>Cantrip</span>
-          {#each $currentCharacter.spells.filter((spell) => spell.equipped === true) as spell, index}
-            <ul
-              class="grid grid-cols-5 text-sm text-center rounded  items-center"
-            >
-              <li >{spell.name}</li>
-              <li>
-                {spell.casting_time}
-              </li>
-              <li >{spell.range}</li>
-              <li >-+</li>
-              <li on:keydown={handleKeypress} on:click={()=> {viewKnownSpell = !viewKnownSpell, selectedSpell = spell}} class="cursor-pointer hover:bg-blue-500 rounded p-2">
-                {spell.damage?.damage_type?.name ?? "view"}
-              </li>
-            </ul>
-          {/each}
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'Cantrip'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'1'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'2'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'3'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'4'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'5'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'6'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'7'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'8'}/>
+          <DisplaySpells bind:viewKnownSpell bind:selectedSpell spellLevel={'9'}/>
         {/if}
 
         <!-- Popup -->
         {#if viewKnownSpell}
-          <ViewSpell bind:viewKnownSpell={viewKnownSpell} bind:selectedSpell={selectedSpell}/>
+          <ViewSpell bind:viewKnownSpell bind:selectedSpell/>
       {/if}
 </div>
 </div>
