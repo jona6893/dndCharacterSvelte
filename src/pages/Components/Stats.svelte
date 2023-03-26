@@ -15,7 +15,12 @@ function calculateModifiedValue(value) {
 }
 
   function updateStatsValues(e, stat) {
-     const modifiedValue = parseInt(e.target.value) * 2 + 10;
+    let modifiedValue;
+    if(e.target.name === 'modify'){
+      modifiedValue = parseInt(e.target.value) * 2 + 10;
+    } else {
+      modifiedValue = parseInt(e.target.value);
+    }
 
   currentCharacter.update((character) => {
     return {
@@ -31,23 +36,25 @@ function calculateModifiedValue(value) {
 
 </script>
 
-<div class="bg-slate-400 min-w-min w-72 grid gap-2 justify-items-start p-4 rounded text-white">
+<div class="min-w-min w-72 grid gap-2 justify-items-start p-4 rounded text-white">
     {#if $currentCharacter !== null && $currentCharacter.name !== undefined}
     <h2>Stats</h2>
     {/if}
     {#each stats as stat}
-        <label for="" class="flex flex-row-reverse gap-2 items-center">
+        <label for="" class="flex w-32 flex-col gap-2 justify-center items-center bg-slate-400 p-4 rounded">
             {stat.stat}
-<input
+            <!-- Stats -->
+<input name="stat"
       value={$currentCharacter.stats && $currentCharacter.stats[stat.value] ? $currentCharacter.stats[stat.value] : ''}
       on:change={(e) => updateStatsValues(e, stat.value)}
       class="max-w-[3rem] bg-transparent border-b text-center cursor-pointer"
       type="text"
       >
- <input class="bg-transparent cursor-pointer"
+      <!-- Modifier -->
+ <input name="modify" class="bg-transparent cursor-pointer border rounded-full h-[2rem] max-w-[2rem] text-center text-sm"
   on:change={(e) => updateStatsValues(e, stat.value)}
   value={$currentCharacter.stats && $currentCharacter.stats[stat.value] ? calculateModifiedValue($currentCharacter.stats[stat.value]) : ''}
-  type="number"
+  type="text" inputmode="numeric"
 />
 
         </label>
