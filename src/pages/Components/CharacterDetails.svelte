@@ -156,12 +156,12 @@
           />
         </svg>
       </p>
-      <p class="flex gap-2 group relative max-w-max">
+      <p class="flex gap-2 group relative max-w-max text-xs text-gray-200 items-center">
         Lvl:
           <input
             on:change={(e) => updateDetails(e, "level")}
             style="width:{$currentCharacter.level.length}ch"
-            class="bg-transparent cursor-pointer"
+            class="bg-transparent cursor-pointer text-white text-base"
             value={$currentCharacter.level ? $currentCharacter.level : ""}
             type="text"
           /><svg

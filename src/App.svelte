@@ -44,8 +44,11 @@
   <Router>
     {#if $googleUser}
     <nav transition:fade class="bg-slate-800 text-white font-Outfit p-4 flex gap-4 items-center justify-between	">
-        <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer" on:click={logout}>Logout</button>
+      <div class="flex gap-4 items-center">
+        <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer h-fit" on:click={logout}>Logout</button>
         <CharacterDetails />
+
+      </div>
         <div class="flex gap-2 items-center ">
           <CharactersMenu/>
           <p class="bg-slate-600 p-2 rounded"><span class="font-thin">user: </span>{$googleUser.displayName} </p>

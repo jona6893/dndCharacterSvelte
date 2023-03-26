@@ -2,28 +2,11 @@
   import { currentCharacter } from "../../../storeUser";
   import { fade } from "svelte/transition";
   import { onMount } from "svelte";
-
-  let attacks;
+  import { fly } from "svelte/transition";
+  
   let attackPopup = false;
-  let equipmentData = [];
-  let selectedItemData = null;
-  let curSelectedItem = null;
   //
   //
- const urls = [
-  "/api/equipment-categories/martial-melee-weapons",
-  "/api/equipment-categories/martial-ranged-weapons",
-  "/api/equipment-categories/martial-weapons",
-  "/api/equipment-categories/melee-weapons",
-  "/api/equipment-categories/ranged-weapons",
-  "/api/equipment-categories/simple-melee-weapons",
-  "/api/equipment-categories/simple-ranged-weapons",
-  "/api/equipment-categories/simple-weapons",
-  "/api/equipment-categories/staff",
-  "/api/equipment-categories/wand",
-  "/api/equipment-categories/weapon",
-  "/api/equipment-categories/shields",
-];
   //
   // Stop the popup from closing when the user clicks the children of the popup
   function handleChildClick(event) {
@@ -34,59 +17,73 @@
   function handleKeypress() {}
   //
 
-  onMount(async () => {
-    try {
-    const results = await Promise.all(
-      urls.map((url) => fetch("https://www.dnd5eapi.co" + url).then((res) => res.json()))
-    );
-    equipmentData = results.flatMap((result) => result.equipment);
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-  }
-    /* try {
-      const response = await fetch("https://www.dnd5eapi.co/api/equipment/");
-      const data = await response.json();
-      equipmentData = data.results;
-    } catch (error) {
-      console.error("Error fetching equipment data:", error);
-    }
-    console.log(equipmentData); */
-  });
+  function handleFromSubmit(event) {
+    event.preventDefault();
+    let atk = event.target.attack.value;
+    let range = event.target.range.value;
+    let hitdc = event.target.hitdc.value;
+    let damage = event.target.damage.value;
+    let notes = event.target.notes.value;
 
-  async function fetchSelectedItemData(url) {
-    try {
-      const response = await fetch(`https://www.dnd5eapi.co${url}`);
-      const data = await response.json();
-      selectedItemData = data;
-    } catch (error) {
-      console.error("Error fetching selected item data:", error);
+    // Create an action object
+    let action = {
+      attack: atk,
+      range: range,
+      hitdc: hitdc,
+      damage: damage,
+      notes: notes,
+      equipped: false,
+    };
+
+    // Add the action object to the actions array in the currentCharacter
+    if (currentCharacter && $currentCharacter) {
+      $currentCharacter.actions = $currentCharacter.actions || [];
+      $currentCharacter.actions.push(action);
+      currentCharacter.set($currentCharacter);
     }
+    console.log($currentCharacter);
+  }
+  // Remoce the action from known Actions
+  function removeAction(actionToRemove) {
+    $currentCharacter.actions = $currentCharacter.actions.filter(
+      (action) => action !== actionToRemove
+    );
   }
 </script>
 
-<div>
-  <ul class="flex gap-2 text-xs">
+<div class="flex flex-col">
+  <!-- <ul class="flex gap-2 text-xs">
     <button>ATTACKS</button>
-    <!-- <button>ACTION</button> 
-       <button>BONUS ACTION</button> 
-       <button>REACTION</button> 
-       <button>OTHER</button> 
-       <button>LIMITED USE</button>  -->
-  </ul>
+  </ul> -->
+  <button
+    on:click={() => {
+      attackPopup = !attackPopup;
+    }}>MANAGE</button
+  >
   <div class="grid">
-    <div class="grid grid-cols-5 text-xs">
+    <div
+      class="grid grid-cols-5 text-xs text-xs text-gray-500 text-center mb-2"
+    >
       <span>ATTACK</span>
       <span>RANGE</span>
       <span>HIT / DC</span>
       <span>DAMAGE</span>
-      <button
-        on:click={() => {
-          attackPopup = !attackPopup;
-        }}>MANAGE</button
-      >
+      <span>NOTES</span>
     </div>
     <div>
-      <h1>dsfiovjsdåofivjåofsdi</h1>
+      {#if $currentCharacter.actions}
+        {#each $currentCharacter.actions.filter((action) => action.equipped === true) as action}
+          <ul
+            class="grid grid-cols-5 text-sm text-center rounded  items-center mb-2 mt-2 text-gray-700 border-b border-gray-300"
+          >
+            <li>{action.attack}</li>
+            <li>{action.range}</li>
+            <li>{action.hitdc}</li>
+            <li>{action.damage}</li>
+            <li>{action.notes}</li>
+          </ul>
+        {/each}
+      {/if}
     </div>
   </div>
 </div>
@@ -104,56 +101,244 @@
     <div
       on:click={handleChildClick}
       on:keydown={handleKeypress}
-      class="w-9/12 h-4/6 bg-white text-black flex justify-between p-4 rounded"
+      class="w-9/12 h-4/6 bg-white grid grid-cols-actionsPopup gap-2 justify- text-black p-8 rounded relative"
     >
-      <div>
-        <span>Attacks in Inventory</span>
-      </div>
-      <div>
-        <span>Search for Attacks</span>
-        {#if equipmentData.length >= 0}
-          <ul class="h-full overflow-auto pb-4">
-            {#each equipmentData as item, index}
-              <li class="cursor-pointer hover:bg-gray-100 p-1 rounded {curSelectedItem == index && 'bg-gray-100'}" on:click={() => {fetchSelectedItemData(item.url), curSelectedItem = index}}>
-                {item.name}
-              </li>
-            {/each}
+      <!-- Close Button -->
+      <button
+        class="absolute hover:bg-gray-200 rounded-full top-[5px] left-[5px] border-2 border-black"
+        on:click={() => {
+          attackPopup = !attackPopup;
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+      <div class=" grid grid-rows-2 gap-2">
+        <div
+          class="flex flex-col items-center border rounded p-2 overflow-auto"
+        >
+          <span class="mb-2">Inventory</span>
+          <ul
+            class="grid grid-cols-6 justify-evenly w-full text-xs text-gray-500 text-center mb-2"
+          >
+            <li>Attack</li>
+            <li>Range</li>
+            <li>HIT/DC</li>
+            <li>DAMAGE</li>
+            <li>NOTES</li>
+            <li>REMOVE</li>
           </ul>
-        {:else}
-          <p>Loading equipment data...</p>
-        {/if}
+          {#if $currentCharacter.actions}
+            {#each $currentCharacter.actions.filter((action) => action.equipped === false) as action}
+              <ul
+                transition:fly={{ y: 25, duration: 300 }}
+                on:keydown={handleKeypress}
+                on:click={() => (action.equipped = true)}
+                class="grid group grid-cols-6 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center w-full "
+              >
+                <li
+                  class="h-full w-full group flex items-center justify-start gap-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 text-transparent group-hover:text-white"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+                    />
+                  </svg>
+                  {action.attack}
+                </li>
+                <li class="h-full w-full flex items-center justify-center">
+                  {action.range}
+                </li>
+                <li class="h-full w-full flex items-center justify-center">
+                  {action.hitdc}
+                </li>
+                <li class="h-full w-full flex items-center justify-center">
+                  {action.damage}
+                </li>
+                <li class="h-full w-full flex items-center justify-center">
+                  {action.notes}
+                </li>
+                <button
+                  class="flex justify-center items-center rounded-tr rounded-br h-full group-hover:bg-red-500 p-2"
+                  on:click={() => removeAction(action)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                    />
+                  </svg>
+                </button>
+              </ul>
+            {/each}
+          {/if}
+        </div>
+        <div
+          class="flex flex-col items-center border rounded p-2 overflow-auto"
+        >
+          <span class="mb-2">Equipped </span>
+          <ul
+            class="grid grid-cols-6 justify-evenly w-full text-xs text-gray-500 text-center mb-2 p-2"
+          >
+            <li>Move</li>
+            <li>Attack</li>
+            <li>Range</li>
+            <li>HIT/DC</li>
+            <li>DAMAGE</li>
+            <li>NOTES</li>
+          </ul>
+          {#if $currentCharacter.actions}
+            {#each $currentCharacter.actions.filter((action) => action.equipped === true) as action, index}
+              <ul
+              transition:fly="{{ y: 25, duration: 300 }}"
+                class="grid grid-cols-6 text-xs text-center rounded items-center w-full"
+              >
+                <span
+                  on:keydown={handleKeypress}
+                  on:click={() => (action.equipped = false)}
+                  class="text-center h-full w-full flex items-center justify-center hover:bg-red-500 hover:text-white cursor-pointer p-2 rounded"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 group-hover:text-white"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+                    />
+                  </svg>
+                </span>
+                <input
+                  class="text-center bg-transparent border rounded h-full"
+                  value={action.attack}
+                  on:change={(e) => (action.attack = e.target.value)}
+                  type="text"
+                />
+                <input
+                  class="text-center bg-transparent border rounded h-full"
+                  value={action.range}
+                  on:change={(e) => (action.range = e.target.value)}
+                  type="text"
+                />
+                <input
+                  class="text-center bg-transparent border rounded h-full"
+                  value={action.hitdc}
+                  on:change={(e) => (action.hitdc = e.target.value)}
+                  type="text"
+                />
+                <input
+                  class="text-center bg-transparent border rounded h-full"
+                  value={action.damage}
+                  on:change={(e) => (action.damage = e.target.value)}
+                  type="text"
+                />
+                <input
+                  class="text-center bg-transparent border rounded h-full"
+                  value={action.notes}
+                  on:change={(e) => (action.notes = e.target.value)}
+                  type="text"
+                />
+                <!-- <li>{action.range}</li>
+            <li>{action.hitdc}</li>
+            <li>{action.damage}</li>
+            <li>{action.notes}</li> -->
+              </ul>
+            {/each}
+          {/if}
+        </div>
       </div>
-      {#if selectedItemData}
-  <div class="h-full overflow-auto">
-  <h2>{selectedItemData.name}</h2>
-  <p>Description: {selectedItemData.desc ? selectedItemData.desc : ''}</p>
-  <p>Weapon Range: {selectedItemData.weapon_range ?? ''}</p>
-  <p>Range: {selectedItemData.range ? selectedItemData.range.normal + ' - ' + selectedItemData.range.long : ''}</p>
-  <p>Damage: {selectedItemData.damage?.damage_dice ?? ''}</p>
-  <p>Damage Type: {selectedItemData.damage?.damage_type?.name ?? ''}</p>
-  <p>Properties:
-    {#if selectedItemData.properties?.length > 0}
-    <span>{selectedItemData.properties[0]?.name +',' ?? ''}</span>
-    <span>{selectedItemData.properties[1]?.name+',' ?? ''}</span>
-    <span>{selectedItemData.properties[2]?.name+',' ?? ''}</span>
-    <span>{selectedItemData.properties[3]?.name+',' ?? ''}</span>
-    {/if}
-</p>
- <p>Throw Range: {selectedItemData.throw_range ? selectedItemData.throw_range.normal + ' - ' + selectedItemData.throw_range.long : ''}</p>
-  <p>Two Handed Damage: {selectedItemData.two_handed_damage?.damage_dice ?? ''}</p>
-  <p>Armor Category: {selectedItemData.armor_category ?? ''}</p>
-  <p>Armor Class: 
-    {#if selectedItemData.armor_class !== undefined}
-    <span>{selectedItemData.armor_class?.base+',' ?? ''}</span>
-    <span>dex bonus: {selectedItemData.armor_class?.dex_bonus+',' ?? ''}</span>
-    <span>max bonus: {selectedItemData.armor_class?.max_bonus+',' ?? ''}</span>
-    {/if}
-</p>
-  <p>STR Minimum: {selectedItemData.str_minimum ?? ''}</p>
-  <p>Stealth Disadvantage: {selectedItemData.stealth_disadvantage ?? ''}</p>
-  <!-- <pre>{JSON.stringify(selectedItemData, null, 2)}</pre> -->
-</div>
-{/if}
+      <div class="border rounded p-4 grid justify-items-center">
+        <span>Submit Action</span>
+        <form
+          action=""
+          on:submit={handleFromSubmit}
+          class="flex flex-col gap-4"
+        >
+          <label for="" class="grid text-xs gray-700">
+            ATTACK
+            <input
+              name="attack"
+              required
+              placeholder="Attack"
+              class="bg-transparent border p-1 rounded text-black text-base"
+              type="text"
+            />
+          </label>
+          <label for="" class="grid text-xs gray-700">
+            RANGE
+            <input
+              name="range"
+              placeholder="Range"
+              class="bg-transparent border p-1 rounded text-black text-base"
+              type="text"
+            />
+          </label>
+          <label for="" class="grid text-xs gray-700">
+            HIT / DC
+            <input
+              name="hitdc"
+              placeholder="HIT / DC"
+              class="bg-transparent border p-1 rounded text-black text-base"
+              type="text"
+            />
+          </label>
+          <label for="" class="grid text-xs gray-700">
+            DAMAGE
+            <input
+              name="damage"
+              placeholder="Damage"
+              class="bg-transparent border p-1 rounded text-black text-base"
+              type="text"
+            />
+          </label>
+          <label for="" class="grid text-xs gray-700">
+            NOTES
+            <input
+              name="notes"
+              placeholder="Notes"
+              class="bg-transparent border p-1 rounded text-black text-base"
+              type="text"
+            />
+          </label>
+          <button class="bg-green-500 hover:bg-green-400 text-white p-2 rounded"
+            >Add Action</button
+          >
+        </form>
+      </div>
     </div>
   </div>
 {/if}

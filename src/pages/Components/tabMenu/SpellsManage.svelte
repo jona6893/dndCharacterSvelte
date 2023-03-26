@@ -22,7 +22,6 @@
   //
   // empty function to aviod errors
   function handleKeypress() {
-    console.log(showSpellsPopup);
   }
   //
   //
@@ -162,7 +161,7 @@ function decrementSpellSlot(index) {
     <!-- Known Spells -->
     <div class="flex-1 grid gap-2 relative">
       <!-- Not equipped Spells -->
-      <div class="border p-2 rounded">
+      <div class="border p-2 rounded overflow-auto">
         <p class="text-sm text-gray-700 text-center w-full">Known Spells</p>
         <ul class="grid grid-cols-5 text-xs text-gray-500 text-center mb-2">
           <li>Spell</li>
@@ -234,7 +233,7 @@ function decrementSpellSlot(index) {
         {/if}
       </div>
       <!-- Equipped Spells -->
-      <div class="border p-2 rounded">
+      <div class="border p-2 rounded overflow-auto">
         <p class="text-sm text-gray-700 text-center w-full">Equipped Spells</p>
         <ul class="grid grid-cols-5 text-xs text-gray-500 text-center mb-2">
           <li>Spell</li>

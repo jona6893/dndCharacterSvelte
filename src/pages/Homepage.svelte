@@ -8,7 +8,7 @@
 </script>
 
 {#if $userData}
-  <div in:fade class="grid grid-cols-3 gap-4 p-4">
+  <div in:fade class="grid grid-cols-3 gap-4 p-4 max-w-[1200px] mx-auto">
     <Skills />
     <Stats />
     <TabMenu />

@@ -6,6 +6,10 @@ module.exports = {
       fontFamily: {
         Outfit: ["Outfit", "sans-serif"],
       },
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        actionsPopup: "60%, 40%",
+      },
     },
   },
   plugins: [],
