@@ -8,18 +8,18 @@
 
 
 
-<div class="bg-slate-400 text-white grid p-4 col-span-2">
-    <ul class="flex gap-4">
-        <button on:click={()=>menuOption = 0} class="p-2 border border-white hover:bg-slate-500 rounded">
+<div class="bg-gray-100 shadow-md text- flex flex-col gap-4 p-4 col-span-2 rounded">
+    <ul class="flex gap-4 max-h-12">
+        <button on:click={()=>menuOption = 0} class="p-2 border border-gray-400 hover:bg-gray-400 hover:text-white rounded {menuOption === 0 && 'bg-gray-400 text-white'}">
             ACTIONS
         </button>
-        <button on:click={()=>menuOption = 1} class="p-2 border border-white hover:bg-slate-500 rounded">
+        <button on:click={()=>menuOption = 1} class="p-2 border border-gray-400 hover:bg-gray-400 hover:text-white rounded {menuOption === 1 && 'bg-gray-400 text-white'}">
             SPELLS
         </button>
-        <button on:click={()=>menuOption = 2} class="p-2 border border-white hover:bg-slate-500 rounded">
+        <button on:click={()=>menuOption = 2} class="p-2 border border-gray-400 hover:bg-gray-400 hover:text-white rounded {menuOption === 2 && 'bg-gray-400 text-white'}">
             FEATURES & TRAITS
         </button>
-        <button on:click={()=>menuOption = 3} class="p-2 border border-white hover:bg-slate-500 rounded">
+        <button on:click={()=>menuOption = 3} class="p-2 border border-gray-400 hover:bg-gray-400 hover:text-white rounded {menuOption === 3 && 'bg-gray-400 text-white'}">
             LANGUAGES & EQUIPMENT
         </button>
     </ul>

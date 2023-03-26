@@ -246,7 +246,7 @@ function decrementSpellSlot(index) {
         {#if currentCharacter && $currentCharacter.spells}
           {#each $currentCharacter.spells.filter((spell) => spell.equipped === true) as spell, index}
             <ul
-            transition:fly="{{ y: 25, duration: 300 }}"
+            transition:fly="{{ y: -25, duration: 300 }}"
               class="grid group grid-cols-5 text-xs text-center hover:bg-red-500 hover:text-white rounded cursor-pointer items-center"
             >
                 <li

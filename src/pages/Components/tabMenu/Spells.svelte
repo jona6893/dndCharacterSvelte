@@ -111,7 +111,7 @@
       }}>MANAGE</button>
   </div>
   <div class="relative">
-<ul class="grid grid-cols-6 text-xs text-center mb-2">
+<ul class="grid grid-cols-6 text-xs text-gray-500 text-center mb-2">
           <li>Level</li>
           <li>Spell</li>
           <li>Time</li>

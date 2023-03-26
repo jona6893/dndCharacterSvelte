@@ -36,22 +36,21 @@ function calculateModifiedValue(value) {
 
 </script>
 
-<div class="min-w-min w-72 grid gap-2 justify-items-start p-4 rounded text-white">
+<div class="min-w-min w-72 flex gap-2 items-center justify-center rounded text-gray-700 row-start-1 col-start-1 col-span-3">
     {#if $currentCharacter !== null && $currentCharacter.name !== undefined}
-    <h2>Stats</h2>
-    {/if}
+    
     {#each stats as stat}
-        <label for="" class="flex w-32 flex-col gap-2 justify-center items-center bg-slate-400 p-4 rounded">
+        <label for="" class="flex w-32 flex-col gap-2 justify-center items-center bg-gray-100 shadow-md p-4 rounded">
             {stat.stat}
             <!-- Stats -->
 <input name="stat"
       value={$currentCharacter.stats && $currentCharacter.stats[stat.value] ? $currentCharacter.stats[stat.value] : ''}
       on:change={(e) => updateStatsValues(e, stat.value)}
-      class="max-w-[3rem] bg-transparent border-b text-center cursor-pointer"
+      class="max-w-[3rem] bg-transparent border-b border-gray-400 text-center cursor-pointer"
       type="text"
       >
       <!-- Modifier -->
- <input name="modify" class="bg-transparent cursor-pointer border rounded-full h-[2rem] max-w-[2rem] text-center text-sm"
+ <input name="modify" class="bg-transparent cursor-pointer border  border-gray-400 rounded-full h-[2rem] max-w-[2rem] text-center text-sm"
   on:change={(e) => updateStatsValues(e, stat.value)}
   value={$currentCharacter.stats && $currentCharacter.stats[stat.value] ? calculateModifiedValue($currentCharacter.stats[stat.value]) : ''}
   type="text" inputmode="numeric"
@@ -59,4 +58,5 @@ function calculateModifiedValue(value) {
 
         </label>
         {/each}
+        {/if}
     </div>

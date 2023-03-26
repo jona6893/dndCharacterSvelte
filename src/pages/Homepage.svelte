@@ -9,7 +9,6 @@
 
 {#if $userData}
   <div in:fade class="grid grid-cols-3 gap-4 p-4">
-    <CharacterDetails />
     <Skills />
     <Stats />
     <TabMenu />

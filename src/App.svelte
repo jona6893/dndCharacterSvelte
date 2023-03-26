@@ -11,6 +11,7 @@
   import { space } from "svelte/internal";
   import CharactersMenu from "./pages/Components/CharactersMenu.svelte";
   import {fade} from 'svelte/transition'
+  import CharacterDetails from "./pages/Components/CharacterDetails.svelte";
 
    let unsubscribeCharacters;
 
@@ -44,6 +45,7 @@
     {#if $googleUser}
     <nav transition:fade class="bg-slate-800 text-white font-Outfit p-4 flex gap-4 items-center justify-between	">
         <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer" on:click={logout}>Logout</button>
+        <CharacterDetails />
         <div class="flex gap-2 items-center ">
           <CharactersMenu/>
           <p class="bg-slate-600 p-2 rounded"><span class="font-thin">user: </span>{$googleUser.displayName} </p>
