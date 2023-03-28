@@ -1,5 +1,6 @@
 <script>
   import { currentCharacter } from "../../../storeUser";
+  import CharacterDetails from "../CharacterDetails.svelte";
 
   export let viewKnownSpell;
   export let selectedSpell;
@@ -9,11 +10,28 @@
   function handleKeypress() {}
 
 
-  function updateSpellSlotValue(value, index) {
-    console.log(value)
-    $currentCharacter.spellSlots[spellLevel].slot[index] = value;
-   console.log($currentCharacter.spellSlots[spellLevel].slot[index])
-  }
+function updateSpellSlotValue(value, index) {
+  currentCharacter.update((data) => {
+    const updatedSpellSlots = data.spellSlots.map((slot, i) => {
+      if (i == spellLevel) {
+        if (Array.isArray(slot.slot)) {
+          const updatedSlot = slot.slot.map((currentValue, j) => {
+            if (j === index) {
+              return value;
+            }
+            return currentValue;
+          });
+          return { ...slot, slot: updatedSlot };
+        } else {
+          return { ...slot, slot: value };
+        }
+      }
+      return slot;
+    });
+
+    return { ...data, spellSlots: updatedSpellSlots };
+  });
+}
   
 </script>
 

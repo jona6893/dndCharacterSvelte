@@ -37,21 +37,44 @@
 
     // Add the action object to the actions array in the currentCharacter
     if (currentCharacter && $currentCharacter) {
-      $currentCharacter.actions = $currentCharacter.actions || [];
-      $currentCharacter.actions.push(action);
-      currentCharacter.set($currentCharacter);
+      currentCharacter.update((data) => {
+        data.actions = data.actions || [];
+        data.actions.push(action);
+        return data;
+      });
     }
     console.log($currentCharacter);
-  }
-  // Remoce the action from known Actions
-  function removeAction(actionToRemove) {
-    $currentCharacter.actions = $currentCharacter.actions.filter(
-      (action) => action !== actionToRemove
-    );
-  }
+}
+
+ 
+  // Remove the action from known Actions
+    function removeAction(actionToRemove) {
+  currentCharacter.update((data) => {
+    return {
+      ...data,
+      actions: data.actions.filter((action) => action !== actionToRemove),
+    };
+  });
+}
+
+
+// Equip a spell or unequip a spell
+function equipAction(actionToUnequip) {
+
+  currentCharacter.update((data) => {
+    return {
+      ...data,
+      actions: data.actoins.map((action) =>
+        action === actionToUnequip ? { ...action, equipped: !actionToUnequip.equipped } : action
+      ),
+    };
+  });
+}
+
+
 </script>
 
-<div class="flex flex-col">
+<div class="flex flex-col gap-2">
   <!-- <ul class="flex gap-2 text-xs">
     <button>ATTACKS</button>
   </ul> -->
@@ -60,7 +83,7 @@
       attackPopup = !attackPopup;
     }}>MANAGE</button
   >
-  <div class="grid">
+  <div class="grid gap-2">
     <div
       class="grid grid-cols-5 text-xs text-xs text-gray-500 text-center mb-2"
     >
@@ -70,7 +93,7 @@
       <span>DAMAGE</span>
       <span>NOTES</span>
     </div>
-    <div>
+    <div class="grid gap-2">
       {#if $currentCharacter.actions}
         {#each $currentCharacter.actions.filter((action) => action.equipped === true) as action}
           <ul
@@ -145,7 +168,7 @@
               <ul
                 transition:fly={{ y: 25, duration: 300 }}
                 on:keydown={handleKeypress}
-                on:click={() => (action.equipped = true)}
+                on:click={() =>equipAction(action)}
                 class="grid group grid-cols-6 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center w-full "
               >
                 <li
@@ -207,7 +230,7 @@
         >
           <span class="mb-2">Equipped </span>
           <ul
-            class="grid grid-cols-6 justify-evenly w-full text-xs text-gray-500 text-center mb-2 p-2"
+            class="grid grid-cols-6 justify-evenly w-full text-xs text-gray-500 text-center mb-2"
           >
             <li>Move</li>
             <li>Attack</li>

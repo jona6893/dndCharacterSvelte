@@ -7,6 +7,7 @@
   import { currentCharacter } from "../../storeUser";
   import {fade, scale} from 'svelte/transition';
   import { get } from "svelte/store";
+ 
   // The current Selected Character
   let selectedCharacter = 0;
   let deleteCharacterIndex;
@@ -185,6 +186,7 @@ async function updateCurrentCharacterInFirebase() {
     console.error('Error updating current character in Firebase: ', error);
   } 
 }
+
 </script>
 
 <div class="relative">

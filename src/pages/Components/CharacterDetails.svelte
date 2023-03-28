@@ -2,7 +2,7 @@
   import { currentCharacter } from "../../storeUser";
   import { storage } from "../../firebase";
   import { fly,fade } from 'svelte/transition';
-  import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+  import { ref, uploadBytesResumable, getDownloadURL, listAll, deleteObject } from "firebase/storage";
   import { userData, googleUser } from "../../storeUser";
 
   let imageUrl = "";
@@ -18,44 +18,57 @@
     });
   }
 
-  async function uploadImage(event) {
-    if (event.target.files[0].size >= 5000000) {
-      iamgeToLarge()
-    } else {
-      const file = event.target.files[0];
-      const fileName = `${Date.now()}-${file.name}`; // To generate a unique file name
-      const storageRef = ref(
-        storage,
-        `images/${$googleUser.uid}/${$currentCharacter.id}/${fileName}`
+ async function uploadImage(event) {
+  if (event.target.files[0].size >= 5000000) {
+    imageToLarge();
+  } else {
+    const file = event.target.files[0];
+    const fileName = `${Date.now()}-${file.name}`; // To generate a unique file name
+
+    const folderPath = `images/${$googleUser.uid}/${$currentCharacter.id}`;
+    const folderRef = ref(storage, folderPath);
+
+    try {
+      // Delete all existing images in the folder
+      const listResult = await listAll(folderRef);
+      await Promise.all(
+        listResult.items.map((item) => {
+          return deleteObject(item);
+        })
       );
 
-      try {
-        const uploadTask = uploadBytesResumable(storageRef, file);
-        await new Promise((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            null,
-            (error) => {
-              reject(error);
-            },
-            () => {
-              resolve(uploadTask.snapshot);
-            }
-          );
-        });
-
-        const downloadURL = await getDownloadURL(storageRef);
-        imageUrl = downloadURL;
-      } catch (error) {
-        console.error("Error uploading image:", error);
+      // Upload the new image
+      const storageRef = ref(storage, `${folderPath}/${fileName}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          null,
+          (error) => {
+            reject(error);
+ },
+      () => {
+        resolve(uploadTask.snapshot);
       }
-      currentCharacter.update((character) => {
-        return { ...character, image: imageUrl };
-      });
-    }
-  }
+    );
+  });
 
-  function iamgeToLarge() {
+  const downloadURL = await getDownloadURL(storageRef);
+  imageUrl = downloadURL;
+} catch (error) {
+  console.error("Error uploading image:", error);
+}
+currentCharacter.update((character) => {
+  return { ...character, image: imageUrl };
+});
+}
+}
+
+
+
+
+
+  function imageToLarge() {
     tooLarge = true;
     setTimeout(() => {
       tooLarge = false;

@@ -8,7 +8,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         // Simple 16 column grid
-        actionsPopup: "60%, 40%",
+        actionsPopup: "70%, 30%",
       },
     },
   },

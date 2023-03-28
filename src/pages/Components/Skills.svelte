@@ -25,18 +25,20 @@ const skills = [
 
 
 function updateSkillValues(e, skillKey, isCheckbox = false) {
-    const inputElement = e.target;
+  const inputElement = e.target;
 
-    currentCharacter.update((data) => {
-      if (!data.skills) {
-        data.skills = {};
-      }
-      data.skills[skillKey] = isCheckbox ? inputElement.checked : inputElement.value;
-      return data;
-    });
+  currentCharacter.update((data) => {
+    if (!data.skills) {
+      data.skills = {};
+    }
+    const newSkills = { ...data.skills };
+    newSkills[skillKey] = isCheckbox ? inputElement.checked : inputElement.value;
 
-    console.log($userData)
-  }
+    return { ...data, skills: newSkills };
+  });
+
+  console.log($currentCharacter);
+}
 
   
 

@@ -94,22 +94,63 @@
   //
   // Render the spell from known spells
   function removeSpell(spellToRemove) {
-    $currentCharacter.spells = $currentCharacter.spells.filter(
-      (spell) => spell !== spellToRemove
-    );
-  }
+  currentCharacter.update((data) => {
+    return {
+      ...data,
+      spells: data.spells.filter((spell) => spell !== spellToRemove),
+    };
+  });
+}
 //update the spell slot level
   function incrementSpellSlot(index) {
-  $currentCharacter.spellSlots[index].level++;
-  $currentCharacter.spellSlots[index].slot.push(false)
+  currentCharacter.update((data) => {
+    const updatedSpellSlots = [...data.spellSlots];
+    updatedSpellSlots[index].level++;
+    updatedSpellSlots[index].slot.push(false);
+
+    return { ...data, spellSlots: updatedSpellSlots };
+  });
 }
 //update the spell slot level
 function decrementSpellSlot(index) {
+  currentCharacter.update((data) => {
+    if (data.spellSlots[index].level > 0) {
+      const updatedSpellSlots = [...data.spellSlots];
+      updatedSpellSlots[index].level--;
+      updatedSpellSlots[index].slot.pop();
 
-  if ($currentCharacter.spellSlots[index].level > 0) {
-    $currentCharacter.spellSlots[index].level--;
-    $currentCharacter.spellSlots[index].slot--;
-  }
+      return { ...data, spellSlots: updatedSpellSlots };
+    }
+    return data;
+  });
+}
+
+// Equip a spell or unequip a spell
+function equipSpell(spellToUnequip) {
+
+  currentCharacter.update((data) => {
+    return {
+      ...data,
+      spells: data.spells.map((spell) =>
+        spell === spellToUnequip ? { ...spell, equipped: !spellToUnequip.equipped } : spell
+      ),
+    };
+  });
+}
+
+function updateSpellSlotLevel(event, targetSpell) {
+  const updatedValue = event.target.value;
+
+  currentCharacter.update((data) => {
+    const updatedSpells = data.spells.map((spell) => {
+      if (spell === targetSpell) {
+        return { ...spell, spellSlotLevel: updatedValue };
+      }
+      return spell;
+    });
+
+    return { ...data, spells: updatedSpells };
+  });
 }
 
   onMount(fetchData);
@@ -178,7 +219,7 @@ function decrementSpellSlot(index) {
               <li
                 class="h-full w-full grid group grid-cols-[10px_minmax(100%,_1fr)_100px] items-center justify-start gap-2"
                 on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = true)}
+                on:click={() => equipSpell(spell)}
               ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-transparent group-hover:text-white">
   <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
 </svg>
@@ -188,14 +229,14 @@ function decrementSpellSlot(index) {
               <li
                 class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = true)}
+                on:click={() => equipSpell(spell)}
               >
                 {spell.range}
               </li>
               <li
                 class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = true)}
+                on:click={() => equipSpell(spell)}
               >
                 {spell.level}
               </li>
@@ -251,7 +292,7 @@ function decrementSpellSlot(index) {
                 <li
                 class="h-full w-full grid group grid-cols-[10px_minmax(100%,_1fr)_100px] items-center justify-start gap-2 text-left"
                 on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = false)}
+                on:click={() => equipSpell(spell)}
               ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-transparent group-hover:text-white">
   <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
 </svg>
@@ -262,7 +303,7 @@ function decrementSpellSlot(index) {
                 name=""
                 id=""
                 class="group-hover:bg-blue-500 bg-transparent cursor-pointer text-center h-full"
-                on:change={(e) => (spell.spellSlotLevel = e.target.value)}
+                on:change={(e) => updateSpellSlotLevel(e, spell)}
               >
                 <option
                   value="Cantrip"
@@ -300,14 +341,14 @@ function decrementSpellSlot(index) {
               <li
                 class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = false)}
+                on:click={() => equipSpell(spell)}
               >
                 {spell.range}
               </li>
               <li
                 class="h-full flex items-center justify-center"
                 on:keydown={handleKeypress}
-                on:click={() => (spell.equipped = false)}
+                on:click={() => equipSpell(spell)}
               >
                 {spell.level}
               </li>
