@@ -31,9 +31,6 @@ currentCharacter.update((character) => {
 console.log($currentCharacter);
 }
 
-onMount(() => {
-
-})
 
 </script>
 

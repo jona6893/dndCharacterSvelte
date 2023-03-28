@@ -9,7 +9,7 @@
 import { deepEqualStore } from "../deepEqualStore";
   import HitPoints from "./Components/HitPoints.svelte";
   import SavingThrows from "./Components/SavingThrows.svelte";
-
+  import BasicStats from "./Components/BasicStats.svelte";
 
 /*   let previousCharacter;
 let interval;
@@ -65,6 +65,7 @@ $: {
       <HitPoints />
       <SavingThrows />
     </div>
+    <BasicStats/>
   </div>
 {:else}
   <div class="fixed w-full h-full inset-0 flex items-center justify-center">
