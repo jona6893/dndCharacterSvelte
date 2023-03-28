@@ -8,8 +8,10 @@
   import { currentCharacter } from "../storeUser";
 import { deepEqualStore } from "../deepEqualStore";
   import HitPoints from "./Components/HitPoints.svelte";
+  import SavingThrows from "./Components/SavingThrows.svelte";
 
-/* let previousCharacter;
+
+/*   let previousCharacter;
 let interval;
 let counter = 0
 onMount(() => {
@@ -28,9 +30,10 @@ onMount(() => {
 onDestroy(() => {
   console.log('Cleared')
   clearInterval(interval);
-}); */
+});  */
 
 /* let previousCharacter;
+
 
 $: {
   if (JSON.stringify(previousCharacter) !== JSON.stringify($currentCharacter)) {
@@ -58,7 +61,10 @@ $: {
     <Skills />
     <Stats />
     <TabMenu />
-    <HitPoints />
+    <div class="flex flex-col gap-4 col-start-4 row-start-1">
+      <HitPoints />
+      <SavingThrows />
+    </div>
   </div>
 {:else}
   <div class="fixed w-full h-full inset-0 flex items-center justify-center">

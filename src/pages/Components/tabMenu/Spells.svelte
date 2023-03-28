@@ -12,28 +12,38 @@
 
 
    //
-  // Stop the popup from closing when the user clicks the children of the popup
-  function handleChildClick(event) {
-    event.stopPropagation();
-  }
+  function updateSpellStats(event) {
+  let field = event.target.name;
+  let value = event.target.value;
+
+  //console.log(field);
+  //console.log(value);
+
+  currentCharacter.update((character) => {
+    let newHitpoints = {...character[field]}
+    newHitpoints = value;
+    return { ...character, [field]: newHitpoints };
+  });
+  console.log($currentCharacter);
+}
   //
-  // empty function to aviod errors
-  function handleKeypress() {
-  }
   //
-  //
+
+
 
 </script>
 
 <div class="grid gap-4">
   <div class="grid grid-cols-3 gap-4">
     <div class="col-start-2 flex gap-4 text-center">
-      <label for="" class="group grid gap-1 justify-items-center text-xs">
+      <label for="" class="group grid gap-1 justify-items-center text-xs relative">
         <span class="flex">
           <input
-          class="w-6 bg-transparent border-b cursor-pointer text-center text-base"
+          value={$currentCharacter?.modifier ? $currentCharacter.modifier : 0}
+          on:change={updateSpellStats}
+          class="w-8 bg-transparent border-b border-gray-400 cursor-pointer text-center text-base"
           type="text"
-          name=""
+          name="modifier"
           id=""
         />
         <svg
@@ -42,7 +52,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-6 h-6 hidden group-hover:block"
+          class="w-6 h-6 hidden group-hover:block absolute top-0 left-3/4"
            >
           <path
             stroke-linecap="round"
@@ -53,12 +63,14 @@
       </span>
       MODIFIER
     </label>
-    <label for="" class="group grid gap-1 justify-items-center text-xs">
+    <label for="" class="group grid gap-1 justify-items-center text-xs relative">
       <span class="flex">
         <input
-          class="w-6 bg-transparent border-b cursor-pointer text-center text-base"
+          value={$currentCharacter?.spellAttack? $currentCharacter.spellAttack : 0}
+          on:change={updateSpellStats}
+          class="w-8 bg-transparent border-b border-gray-400 cursor-pointer text-center text-base"
           type="text"
-          name=""
+          name="spellAttack"
           id=""
         />
         <svg
@@ -67,7 +79,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-6 h-6 hidden group-hover:block"
+          class="w-6 h-6 hidden group-hover:block absolute top-0 left-3/4"
             >
           <path
             stroke-linecap="round"
@@ -79,12 +91,14 @@
       SPELL ATTACK
     </label>
 
-    <label for="" class="group grid gap-1 justify-items-center text-xs">
+    <label for="" class="group grid gap-1 justify-items-center text-xs relative">
       <span class="flex">
         <input
-          class="w-6 bg-transparent border-b cursor-pointer text-center text-base"
+          value={$currentCharacter?.saveDC? $currentCharacter.saveDC : 0}
+          on:change={updateSpellStats}
+          class="w-8 bg-transparent border-b border-gray-400 cursor-pointer text-center text-base"
           type="text"
-          name=""
+          name="saveDC"
           id=""
         />
         <svg
@@ -93,7 +107,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-6 h-6 hidden group-hover:block"
+          class="w-6 h-6 hidden group-hover:block absolute top-0 left-full"
            >
           <path
             stroke-linecap="round"
