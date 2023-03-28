@@ -36,7 +36,7 @@ function calculateModifiedValue(value) {
 
 </script>
 
-<div class="min-w-min w-72 flex gap-2 items-center justify-center rounded text-gray-700 row-start-1 col-start-1 col-span-3">
+<div class="min-w-min w-72 grid grid-cols-3 w-full gap-4 items-center justify-center rounded text-gray-700 row-start-1 col-start-1 col-span-2">
     {#if $currentCharacter !== null && $currentCharacter.name !== undefined}
     
     {#each stats as stat}

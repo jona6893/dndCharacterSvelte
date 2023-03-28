@@ -44,7 +44,7 @@ function updateSkillValues(e, skillKey, isCheckbox = false) {
 
 </script>
 
-<div class="bg-slate-400 min-w-min w-72 grid gap-2 justify-items-start p-4 rounded text-white">
+<div class="bg-slate-400 min-w-min w-72 grid gap-2 justify-items-start p-4 rounded text-white col-start-1">
     {#if $currentCharacter !== null && $currentCharacter.name !== undefined}
     <h2>Skills</h2>
     {/if}

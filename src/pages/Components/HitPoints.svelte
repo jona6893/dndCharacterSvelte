@@ -1,8 +1,9 @@
 <script>
     import { currentCharacter } from "../../storeUser";
+    import {onMount} from "svelte";
     let dead = false;
-
-const defaultHitpoints = {current: 0, max: 0, temp: 0, fails: [false, false, false],saves: [false, false, false],}
+    const defaultHitpoints = {current: 1, max: 1, temp: 0, fails: [false, false, false],saves: [false, false, false],}
+    let validHitpoints = $currentCharacter?.hitpoints || defaultHitpoints;
 
 // Step 2: Update the currentCharacter object with the new hitpoints object
 
@@ -10,25 +11,25 @@ function updateHitpoints(event) {
   let field = event.target.name;
   let value = event.target.value;
 
-  console.log(field);
-  console.log(value);
+  //console.log(field);
+  //console.log(value);
 
   currentCharacter.update((character) => {
     const newHitpoints = {...character.hitpoints}
     newHitpoints[field] = value;
     return { ...character, hitpoints: newHitpoints };
   });
-  console.log($currentCharacter);
+  //console.log($currentCharacter);
 }
 
 function incrementCurrentHitpoints(event) {
     event.preventDefault();
     if ($currentCharacter.hitpoints.current <= 0) {
-    console.log('we hit zero')
+    //console.log('we hit zero')
   dead = true;
 }
-    console.log(event)
-    console.log(event.target.form[1].value);
+    //console.log(event)
+    //console.log(event.target.form[1].value);
     if(event.target.form[1].value.toString().substring(0,1) !== "-") {
     currentCharacter.update((character) => {
     const newHitpoints = {...character.hitpoints}
@@ -41,7 +42,7 @@ function incrementCurrentHitpoints(event) {
 }
 function decrementCurrentHitpoints(event) {
     event.preventDefault();
-    console.log(event.target.form[1].value);
+    //console.log(event.target.form[1].value);
     if(event.target.form[1].value.toString().substring(0,1) !== "-") {
     currentCharacter.update((character) => {
     const newHitpoints = {...character.hitpoints}
@@ -58,16 +59,48 @@ function decrementCurrentHitpoints(event) {
 }
 }
 
+function updateFails(event) {
+  console.log(event);
+  currentCharacter.update((character) => {
+    const newDeathSave = {...character.hitpoints};
+    newDeathSave.fails[event.target.name] = event.target.checked;
+    return {
+      ...character,
+      hitpoints: newDeathSave
+    };
+  });
+  //console.log($currentCharacter);
+}
+function updateSaves(event) {
+  console.log(event);
+  currentCharacter.update((character) => {
+    const newDeathSave = {...character.hitpoints};
+    newDeathSave.saves[event.target.name] = event.target.checked;
+    return {
+      ...character,
+      hitpoints: newDeathSave
+    };
+  });
+  //console.log($currentCharacter);
+}
+
+
+onMount(()=> {
+    if ($currentCharacter.hitpoints.current <= 0){
+    dead = true;
+  }
+ 
+})
 
 
 
 </script>
 
-<div class="bg-gray-100 p-4 shadow-md col-start-4 row-start-1 rounded w-full">
+<div class="bg-gray-100 p-4 shadow-md col-start-4 row-start-1 rounded w-full h-fit">
     {#if !dead}
     <!-- Hit Points -->
     
-    <div class="flex flex-col items-center justify-center gap-2">
+    <div class="flex flex-col items-center justify-center  gap-2">
         <h3>Hit Points</h3>
         <div class="flex gap-4">
         <form class="grid justify-items-center gap-1">
@@ -84,7 +117,7 @@ function decrementCurrentHitpoints(event) {
             <div class="flex gap-4">
                 <label class="flex group relative flex-col items-center gap-1" for="">
                     <span class="p-1">CURRENT</span> 
-                    <input value={$currentCharacter?.hitpoints.current ? $currentCharacter.hitpoints?.current: 0} name="current" on:change={(e) =>updateHitpoints(e)} class="max-w-[3rem] bg-transparent border-b border-gray-400 text-center" type="text">
+                    <input value={$currentCharacter?.hitpoints.current ? $currentCharacter.hitpoints?.current: 1} name="current" on:change={(e) =>updateHitpoints(e)} class="max-w-[3rem] bg-transparent border-b border-gray-400 text-center" type="text">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden absolute top-1/3 left-[4rem] group-hover:block">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                     </svg>
@@ -92,7 +125,7 @@ function decrementCurrentHitpoints(event) {
                 
                 <label class="flex flex-col items-center relative group gap-1" for="">
                    <span class="p-1">MAX</span> 
-                    <input value={$currentCharacter?.hitpoints.max ? $currentCharacter.hitpoints?.max:0} name="max" on:change={(e) =>updateHitpoints(e)} class="max-w-[3rem] bg-transparent border-b border-gray-400 text-center" type="text">
+                    <input value={$currentCharacter?.hitpoints.max ? $currentCharacter.hitpoints?.max:1} name="max" on:change={(e) =>updateHitpoints(e)} class="max-w-[3rem] bg-transparent border-b border-gray-400 text-center" type="text">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden absolute top-1/3 left-[3rem] group-hover:block">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                     </svg>
@@ -134,17 +167,17 @@ function decrementCurrentHitpoints(event) {
         <div class="flex gap-4 justify-between">
             <span class="font-bold">FAILURE:</span>
             <div class="flex gap-2">
-                <input class="fail-check" type="checkbox">
-                <input class="fail-check" type="checkbox">
-                <input class="fail-check" type="checkbox">
+                <input name="0" bind:checked={validHitpoints.fails[0]} on:click={updateFails} class="fail-check" type="checkbox">
+                <input name="1" bind:checked={validHitpoints.fails[1]} on:click={updateFails} class="fail-check" type="checkbox">
+                <input name="2" bind:checked={validHitpoints.fails[2]} on:click={updateFails} class="fail-check" type="checkbox">
             </div>
         </div>
         <div class="flex gap-4 justify-between">
             <span class="font-bold">SUCCESS:</span>
             <div class="flex gap-2">
-                <input class="save-check" type="checkbox">
-                <input class="save-check" type="checkbox">
-                <input class="save-check" type="checkbox">
+                <input name="0" bind:checked={validHitpoints.saves[0]} on:click={updateSaves} class="save-check" type="checkbox">
+                <input name="1" bind:checked={validHitpoints.saves[1]} on:click={updateSaves} class="save-check" type="checkbox">
+                <input name="2" bind:checked={validHitpoints.saves[2]} on:click={updateSaves} class="save-check" type="checkbox">
             </div>
         </div>
         </div> 
