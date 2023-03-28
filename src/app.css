@@ -2,7 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+/** ---- Text Editor ---- */
 .trix-button-group--file-tools, .trix-button-group--block-tools {
     display:none !important;
   }
 
+trix-toolbar .trix-button-group{
+  border: none !important;
+}
+trix-toolbar .trix-button.trix-active{
+  background-color: rgb(156 163 175) !important;
+  border-radius: 0.25rem;
+     /*  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); */
+
+}
+trix-toolbar .trix-button--icon-bold::before{
+  color: #9ca3af !important;
+}
+
+trix-toolbar .trix-button:not(:first-child){
+  border:none !important;
+}
+
+trix-toolbar .trix-button{
+  border-bottom: none !important;;
+}
+
+
+/** ---- Circular Input checkboxes ---- */
+
+  .checkbox-round {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #6b7280;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    background-color: #3b82f6;
+}

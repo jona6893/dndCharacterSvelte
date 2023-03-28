@@ -8,23 +8,26 @@
   import { currentCharacter } from "../storeUser";
 import { deepEqualStore } from "../deepEqualStore";
 
-/* let previousCharacter;
+let previousCharacter;
 let interval;
-
+let counter = 0
 onMount(() => {
   previousCharacter = $currentCharacter;
   interval = setInterval(() => {
+    if(counter == 0){
+      counter++
+    } else {
     if (previousCharacter !== $currentCharacter) {
       console.log("currentCharacter value has changed");
       previousCharacter = $currentCharacter;
-    }
-  }, 2000);
+    }}
+  }, 3000);
 });
 
 onDestroy(() => {
   console.log('Cleared')
   clearInterval(interval);
-}); */
+});
 
 /* let previousCharacter;
 
@@ -36,8 +39,7 @@ $: {
 } */
 
 
-
-const currentCharacterStore = deepEqualStore($currentCharacter);
+/* const currentCharacterStore = deepEqualStore($currentCharacter);
 
 $: {
   if ($currentCharacterStore !== $currentCharacter) {
@@ -46,7 +48,7 @@ $: {
     currentCharacterStore.set($currentCharacter);
   }
 }
-
+ */
 
 </script>
 

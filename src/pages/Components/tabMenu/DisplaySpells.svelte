@@ -10,7 +10,9 @@
   function handleKeypress() {}
 
 
-function updateSpellSlotValue(value, index) {
+function updateSpellSlotValue(event, index) {
+  let value = event.target.checked
+
   currentCharacter.update((data) => {
     const updatedSpellSlots = data.spellSlots.map((slot, i) => {
       if (i == spellLevel) {
@@ -44,9 +46,10 @@ function updateSpellSlotValue(value, index) {
       <span class="font-normal">Spell Slot:</span>
  {#each Array.from({length: $currentCharacter.spellSlots[spellLevel]?.level}) as _, index}
   <input
+  class="checkbox"
     type="checkbox"
     checked={$currentCharacter.spellSlots[spellLevel].slot[index]}
-    on:change={(e) => updateSpellSlotValue(e.target.checked, index)}
+    on:change={(e) => updateSpellSlotValue(e, index)}
   >
 {/each} 
 </div>
@@ -66,9 +69,29 @@ function updateSpellSlotValue(value, index) {
       on:click={() => {
         (viewKnownSpell = !viewKnownSpell), (selectedSpell = spell);
       }}
-      class="cursor-pointer border border-gray-400 hover:bg-blue-500 rounded p-2"
+      class="cursor-pointer border border-gray-400 hover:bg-blue-500 hover:text-white rounded p-2"
     >
       {spell.damage?.damage_type?.name ?? "view"}
     </li>
   </ul>
 {/each}
+
+<style>
+
+    .checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 2px solid #9ca3af;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox:checked {
+    background-color: #7c3aed;
+}
+</style>

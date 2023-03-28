@@ -41,58 +41,61 @@ export let selectedSpell
           </svg>
         </button>
         <div class="pb-8 overflow-auto flex flex-col gap-2 p-2 rounded">
-          <p>Spell: {selectedSpell.name ?? ""}</p>
-          <p>
-            Description: {selectedSpell.desc
+          <p><span class="text-gray-600 text-xs">Spell: </span>{selectedSpell.name ?? ""}</p>
+          <p class="  { selectedSpell.desc.length >= 0 && 'columns-1', selectedSpell.desc.length == 2 && 'columns-2', selectedSpell.desc.length >=3 && 'columns-3' }"><span class="text-gray-600 text-xs" on:click={()=> console.log(selectedSpell.desc)}>
+            Description:
+          </span><br>
+             {selectedSpell.desc
               ? selectedSpell.desc.join(", ")
               : ""}
           </p>
-          <p>Range: {selectedSpell.range ? selectedSpell.range : ""}</p>
+          <p><span class="text-gray-600 text-xs">Range: </span>{selectedSpell.range ? selectedSpell.range : ""}</p>
           <p>
-            Casting Time: {selectedSpell.casting_time
+           <span class="text-gray-600 text-xs">Casting Time: </span> {selectedSpell.casting_time
               ? selectedSpell.casting_time
               : ""}
           </p>
           <p>
-            Duration: {selectedSpell.duration
+            <span class="text-gray-600 text-xs">Duration:</span> {selectedSpell.duration
               ? selectedSpell.duration
               : ""}
           </p>
-          <p>Level: {selectedSpell.level ? selectedSpell.level : ""}</p>
+          <p><span class="text-gray-600 text-xs">Level: </span>{selectedSpell.level ? selectedSpell.level : ""}</p>
           {#if selectedSpell.higher_level}
             <p>
-              Higher Level: {selectedSpell.higher_level
+             <span class="text-gray-600 text-xs">Higher Level: </span>{selectedSpell.higher_level
                 ? selectedSpell.higher_level
                 : ""}
             </p>
           {/if}
           {#if selectedSpell.damage}
             <ul>
-              <li>Damage</li>
-              <li>Type: {selectedSpell.damage.damage_type.name}</li>
-              <li>Damage At Slot Level:</li>
+              <li class="text-gray-600 text-xs font-semibold">Damage</li>
+              <li class="text-gray-600 text-xs">Type: {selectedSpell.damage.damage_type.name}</li>
+              <li class="text-gray-600 text-xs">Damage At Slot Level:</li>
               {#if selectedSpell.damage.damage_at_slot_level}
                 {#each Object.entries(selectedSpell.damage.damage_at_slot_level) as [slot, damage]}
-                  <li>Slot {slot}: {damage}</li>
+                  <li><span class="text-gray-600 text-xs">Slot</span> {slot}: {damage}</li>
                 {/each}
               {/if}
               {#if selectedSpell.damage.damage_at_character_level}
                 {#each Object.entries(selectedSpell.damage.damage_at_character_level) as [slot, damage]}
-                  <li>Slot {slot}: {damage}</li>
+                  <li><span class="text-gray-600 text-xs">Slot</span> {slot}: {damage}</li>
                 {/each}
               {/if}
             </ul>
           {/if}
           {#if selectedSpell.area_of_effect}
-            <ul class="flex gap-2">
-              <li>Area of Effect:</li>
+            <ul class="flex gap-2 items-center">
+              <li class="text-gray-600 text-xs font-bold">Area of Effect:</li>
               <li>
-                Type: {selectedSpell.area_of_effect
+                <span class="text-gray-600 text-xs">Type:</span>
+                 {selectedSpell.area_of_effect
                   ? selectedSpell.area_of_effect.type
                   : ""}
               </li>
               <li>
-                Size: {selectedSpell.area_of_effect
+                <span class="text-gray-600 text-xs">Type:</span> {selectedSpell.area_of_effect
                   ? selectedSpell.area_of_effect.size
                   : ""}
               </li>
@@ -100,27 +103,30 @@ export let selectedSpell
           {/if}
           {#if selectedSpell.dc}
             <ul>
-              <li>DC:</li>
+              <li class="text-gray-600 text-xs">DC:</li>
               <li>
-                Type: {selectedSpell.dc.dc_type.name
+                <span class="text-gray-600 text-xs">Type:</span>
+                 {selectedSpell.dc.dc_type.name
                   ? selectedSpell.dc.dc_type.name
                   : ""}
               </li>
               <li>
-                DC Success: {selectedSpell.dc.dc_success
+                <span class="text-gray-600 text-xs">DC Success: </span>
+                {selectedSpell.dc.dc_success
                   ? selectedSpell.dc.dc_success
                   : ""}
               </li>
               <li>
-                Description: {selectedSpell.dc.desc
+                <span class="text-gray-600 text-xs">Description: </span>
+                 {selectedSpell.dc.desc
                   ? selectedSpell.dc.desc
                   : ""}
               </li>
             </ul>
           {/if}
           {#if selectedSpell.classes?.length > 0}
-            <ul class="flex gap-2">
-              <li>Classes:</li>
+            <ul class="flex gap-2 items-center">
+              <li class="text-gray-600 text-xs">Classes:</li>
               {#each selectedSpell.classes as klass}
                 <li>
                   {klass.name},

@@ -32,12 +32,12 @@
 
 </script>
 
-<h2>FEATURES</h2>
-<div class="trix-editor-wrapper">
+<h2 class="text-center font-semibold">FEATURES</h2>
+<div class="trix-editor-wrapper ">
   <input id="trix-feats" type="hidden" bind:value="{$currentCharacter.features}" />
   <trix-editor input="trix-feats" on:trix-change="{handleTrixChangeFeat}" bind:this="{trixEditorFeats}"></trix-editor>
 </div>
-<h2>TRAITS</h2>
+<h2 class="text-center mt-4 font-semibold">TRAITS</h2>
 <div class="trix-editor-wrapper">
   <input id="trix-traits" type="hidden" bind:value="{$currentCharacter.traits}" />
   <trix-editor input="trix-traits" on:trix-change="{handleTrixChangeTraits}" bind:this="{trixEditorTraits}"></trix-editor>

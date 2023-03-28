@@ -13,7 +13,7 @@
   let slots = ['Cantrip',1,2,3,4,5,6,7,8,9]
   let slotUpdate = [0,0,0,0,0,0,0,0,0]
 
-  console.log($currentCharacter)
+  //console.log($currentCharacter)
   //
   // Stop the popup from closing when the user clicks the children of the popup
   function handleChildClick(event) {
@@ -61,7 +61,7 @@
   }
 
   function addSpellToCharacter() {
-    console.log(selectedItemData);
+    //console.log(selectedItemData);
     if (Object.keys(selectedItemData).length > 0) {
       const spellWithEquipped = {
         ...selectedItemData,
@@ -83,12 +83,12 @@
           return { ...character, spells: updatedSpells };
         });
       } else {
-        console.log("Spell already exists in the list.");
+        //console.log("Spell already exists in the list.");
       }
     } else {
-      console.log("No spell is selected.");
+      //console.log("No spell is selected.");
     }
-    console.log($currentCharacter);
+    //console.log($currentCharacter);
   }
   //
   //
@@ -529,56 +529,58 @@ function updateSpellSlotLevel(event, targetSpell) {
       <div
         class="w-full h-1/2 pb-8 overflow-auto flex flex-col gap-2 border p-1 rounded"
       >
-        <p>Spell: {selectedItemData.name ? selectedItemData.name : ""}</p>
-        <p>
-          Description: {selectedItemData.desc
+        <p><span class="text-gray-600 text-xs">Spell:</span> {selectedItemData.name ? selectedItemData.name : ""}</p>
+        <p><span class="text-gray-600 text-xs">
+          Description:
+        </span>
+           {selectedItemData.desc
             ? selectedItemData.desc.join(", ")
             : ""}
         </p>
-        <p>Range: {selectedItemData.range ? selectedItemData.range : ""}</p>
-        <p>
-          Casting Time: {selectedItemData.casting_time
+        <p><span class="text-gray-600 text-xs">Range:</span> {selectedItemData.range ? selectedItemData.range : ""}</p>
+        <p><span class="text-gray-600 text-xs">Casting Time: </span>
+          {selectedItemData.casting_time
             ? selectedItemData.casting_time
             : ""}
         </p>
         <p>
-          Duration: {selectedItemData.duration ? selectedItemData.duration : ""}
+          <span class="text-gray-600 text-xs">Duration:</span> {selectedItemData.duration ? selectedItemData.duration : ""}
         </p>
-        <p>Level: {selectedItemData.level ? selectedItemData.level : ""}</p>
+        <p><span class="text-gray-600 text-xs">Level:</span> {selectedItemData.level ? selectedItemData.level : ""}</p>
         {#if selectedItemData.higher_level}
           <p>
-            Higher Level: {selectedItemData.higher_level
+            <span class="text-gray-600 text-xs">Higher Level:</span> {selectedItemData.higher_level
               ? selectedItemData.higher_level
               : ""}
           </p>
         {/if}
         {#if selectedItemData.damage}
           <ul>
-            <li>Damage</li>
-            <li>Type: {selectedItemData.damage.damage_type.name}</li>
-            <li>Damage At Slot Level:</li>
+            <li class="text-gray-600 text-xs font-semibold">Damage</li>
+            <li> <span class="text-gray-600 text-xs">Type:</span> {selectedItemData.damage.damage_type.name}</li>
+            <li class="text-gray-600 text-xs">Damage At Slot Level:</li>
             {#if selectedItemData.damage.damage_at_slot_level}
               {#each Object.entries(selectedItemData.damage.damage_at_slot_level) as [slot, damage]}
-                <li>Slot {slot}: {damage}</li>
+                <li><span class="text-gray-600 text-xs">Slot</span> {slot}: {damage}</li>
               {/each}
             {/if}
             {#if selectedItemData.damage.damage_at_character_level}
               {#each Object.entries(selectedItemData.damage.damage_at_character_level) as [slot, damage]}
-                <li>Slot {slot}: {damage}</li>
+                <li><span class="text-gray-600 text-xs">Slot</span> {slot}: {damage}</li>
               {/each}
             {/if}
           </ul>
         {/if}
         {#if selectedItemData.area_of_effect}
           <ul class="flex gap-2">
-            <li>Area of Effect:</li>
+            <li class="text-gray-600 text-xs font-semibold">Area of Effect:</li>
             <li>
               Type: {selectedItemData.area_of_effect
                 ? selectedItemData.area_of_effect.type
                 : ""}
             </li>
-            <li>
-              Size: {selectedItemData.area_of_effect
+            <li> <span class="text-gray-600 text-xs">Size: </span>
+               {selectedItemData.area_of_effect
                 ? selectedItemData.area_of_effect.size
                 : ""}
             </li>
@@ -586,27 +588,27 @@ function updateSpellSlotLevel(event, targetSpell) {
         {/if}
         {#if selectedItemData.dc}
           <ul>
-            <li>DC:</li>
+            <li class="text-gray-600 text-xs font-semibold">DC:</li>
             <li>
-              Type: {selectedItemData.dc.dc_type.name
+              <span class="text-gray-600 text-xs">Type:</span> {selectedItemData.dc.dc_type.name
                 ? selectedItemData.dc.dc_type.name
                 : ""}
             </li>
-            <li>
-              DC Success: {selectedItemData.dc.dc_success
+            <li>  <span class="text-gray-600 text-xs">DC Success: </span>
+               {selectedItemData.dc.dc_success
                 ? selectedItemData.dc.dc_success
                 : ""}
             </li>
-            <li>
-              Description: {selectedItemData.dc.desc
+            <li> <span class="text-gray-600 text-xs">Description: </span>
+               {selectedItemData.dc.desc
                 ? selectedItemData.dc.desc
                 : ""}
             </li>
           </ul>
         {/if}
         {#if selectedItemData.classes?.length > 0}
-          <ul class="flex gap-2">
-            <li>Classes:</li>
+          <ul class="flex gap-2 items-center">
+            <li class="text-gray-600 text-xs">Classes:</li>
             {#each selectedItemData.classes as klass}
               <li>
                 {klass.name},

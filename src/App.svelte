@@ -12,7 +12,6 @@ import {currentCharacter} from "./storeUser"
   import CharactersMenu from "./pages/Components/CharactersMenu.svelte";
   import {fade} from 'svelte/transition'
   import CharacterDetails from "./pages/Components/CharacterDetails.svelte";
-import { deepEqualStore } from "./deepEqualStore";
    let unsubscribeCharacters;
 
   const logout = async () => {
@@ -37,15 +36,7 @@ import { deepEqualStore } from "./deepEqualStore";
   });
 });
 
-const currentCharacterStore = deepEqualStore($currentCharacter);
 
-$: {
-  if ($currentCharacterStore !== $currentCharacter) {
-    console.log("currentCharacter value has changed");
-    currentCharacterStore.set($currentCharacter);
-    console.log($currentCharacterStore);
-  }
-}
 
 
 </script>

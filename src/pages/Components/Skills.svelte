@@ -49,6 +49,7 @@ function updateSkillValues(e, skillKey, isCheckbox = false) {
     <h2>Skills</h2>
     {/if}
     {#each skills as skill}
+
         <label for="" class="flex flex-row-reverse gap-2">
             {skill.skill}
 <input
@@ -57,10 +58,8 @@ function updateSkillValues(e, skillKey, isCheckbox = false) {
       class="max-w-[3rem] bg-transparent border-b text-center cursor-pointer"
       type="text"
       >
-      <input type="checkbox" class="cursor-pointer" checked="{($currentCharacter.skills && $currentCharacter.skills[skill.checkValue]) || false}" on:change={(e) => updateSkillValues(e, skill.checkValue, true)} />
-
-
-        </label>
+      <input type="checkbox" class="checkbox-round cursor-pointer" checked="{($currentCharacter.skills && $currentCharacter.skills[skill.checkValue]) || false}" on:change={(e) => updateSkillValues(e, skill.checkValue, true)} />
+    </label>
         {/each}
     </div>
     

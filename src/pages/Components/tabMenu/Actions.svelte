@@ -43,7 +43,7 @@
         return data;
       });
     }
-    console.log($currentCharacter);
+    
 }
 
  
@@ -64,12 +64,28 @@ function equipAction(actionToUnequip) {
   currentCharacter.update((data) => {
     return {
       ...data,
-      actions: data.actoins.map((action) =>
+      actions: data.actions.map((action) =>
         action === actionToUnequip ? { ...action, equipped: !actionToUnequip.equipped } : action
       ),
     };
   });
 }
+// Equip a spell or unequip a spell
+function updateActionValues(event, index) {
+  let field = event.target.name;
+  let value = event.target.value;
+
+
+  currentCharacter.update((data) => {
+    return {
+      ...data,
+      actions: data.actions.map((action, i) => i === index ? { ...action,[field]: value } : action
+       /*  action[index] && { ...action, [field]: value }  */
+      ),
+    };
+  });
+}
+
 
 
 </script>
@@ -247,7 +263,7 @@ function equipAction(actionToUnequip) {
               >
                 <span
                   on:keydown={handleKeypress}
-                  on:click={() => (action.equipped = false)}
+                  on:click={() =>equipAction(action)}
                   class="text-center h-full w-full flex items-center justify-center hover:bg-red-500 hover:text-white cursor-pointer p-2 rounded"
                 >
                   <svg
@@ -268,31 +284,36 @@ function equipAction(actionToUnequip) {
                 <input
                   class="text-center bg-transparent border rounded h-full"
                   value={action.attack}
-                  on:change={(e) => (action.attack = e.target.value)}
+                  name="attack"
+                  on:change={(e) => updateActionValues(e, index)}
                   type="text"
                 />
                 <input
                   class="text-center bg-transparent border rounded h-full"
                   value={action.range}
-                  on:change={(e) => (action.range = e.target.value)}
+                  name="range"
+                  on:change={(e) => updateActionValues(e, index)}
                   type="text"
                 />
                 <input
+                  name="hitdc"
                   class="text-center bg-transparent border rounded h-full"
                   value={action.hitdc}
-                  on:change={(e) => (action.hitdc = e.target.value)}
+                  on:change={(e) => updateActionValues(e, index)}
                   type="text"
                 />
                 <input
+                  name="damage"  
                   class="text-center bg-transparent border rounded h-full"
                   value={action.damage}
-                  on:change={(e) => (action.damage = e.target.value)}
+                  on:change={(e) => updateActionValues(e, index)}
                   type="text"
                 />
                 <input
+                  name="notes"
                   class="text-center bg-transparent border rounded h-full"
                   value={action.notes}
-                  on:change={(e) => (action.notes = e.target.value)}
+                  on:change={(e) => updateActionValues(e, index)}
                   type="text"
                 />
                 <!-- <li>{action.range}</li>
