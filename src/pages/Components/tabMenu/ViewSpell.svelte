@@ -15,7 +15,7 @@ export let selectedSpell
   on:click={() => {
     viewKnownSpell = !viewKnownSpell;
   }}
-  on:keydown={handleKeypress} class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-center">
+  on:keydown={handleKeypress} class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-center z-10">
         <div  on:click={handleChildClick}
     on:keydown={handleKeypress} class="w-9/12 h-4/6 bg-white text-black flex gap-2 overflow-auto justify-between p-8 rounded relative">
         <!-- Close Button -->
@@ -42,9 +42,8 @@ export let selectedSpell
         </button>
         <div class="pb-8 overflow-auto flex flex-col gap-2 p-2 rounded">
           <p><span class="text-gray-600 text-xs">Spell: </span>{selectedSpell.name ?? ""}</p>
-          <p class="  { selectedSpell.desc.length >= 0 && 'columns-1', selectedSpell.desc.length == 2 && 'columns-2', selectedSpell.desc.length >=3 && 'columns-3' }"><span class="text-gray-600 text-xs" on:click={()=> console.log(selectedSpell.desc)}>
-            Description:
-          </span><br>
+          <p class="  { selectedSpell.desc.length >= 0 && 'columns-1', selectedSpell.desc.length == 2 && 'columns-2', selectedSpell.desc.length >=3 && 'columns-3' }">
+            <span class="text-gray-600 text-xs" on:click={()=> console.log(selectedSpell.desc)}>Description:</span><br>
              {selectedSpell.desc
               ? selectedSpell.desc.join(", ")
               : ""}

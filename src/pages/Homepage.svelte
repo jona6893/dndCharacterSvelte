@@ -57,7 +57,7 @@ $: {
 </script>
 
 {#if $userData}
-  <div in:fade class="grid grid-mainLayout gap-4 p-4 max-w-[1200px] mx-auto" id="dice-container">
+  <div in:fade class="grid grid-mainLayout gap-4 p-4 max-w-[1200px] mx-auto font-Outfit" id="dice-container">
     <Skills />
     <Stats />
     <TabMenu />

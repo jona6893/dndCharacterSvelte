@@ -44,7 +44,8 @@ import {currentCharacter} from "./storeUser"
 <main >
   <Router>
     {#if $googleUser}
-    <nav transition:fade class="bg-slate-800 text-white font-Outfit p-4 flex gap-4 items-center justify-between	">
+    <nav transition:fade class="bg-slate-800 text-white font-Outfit p-4">
+      <div class="flex gap-4 items-center justify-between max-w-[1200px] mx-auto">
       <div class="flex gap-4 items-center">
         <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer h-fit" on:click={logout}>Logout</button>
         <CharacterDetails />
@@ -54,6 +55,7 @@ import {currentCharacter} from "./storeUser"
           <CharactersMenu/>
           <p class="bg-slate-600 p-2 rounded"><span class="font-thin">user: </span>{$googleUser.displayName} </p>
         </div>
+      </div>
       </nav>
       {/if}
     <div>

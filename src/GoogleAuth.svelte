@@ -118,9 +118,13 @@ export async function checkUserDocument(uid) {
     on:click={logout}>Logout</button
   > -->
 {:else}
-  <div
-    class="inset-0 w-screen h-screen m-auto flex items-center justify-center"
+  <div 
+    style="background-image: url('../public/dnd.jpg')"
+    class="inset-0 w-screen h-screen m-auto bg-cover bg-center bg-no-repeat"
   >
+  <div class="w-full h-full inset-0 bg-black/50 flex flex-col gap-4 items-center justify-center">
+    
+    <h1 class="text-3xl text-white font-Outfit">DND Character Sheet</h1>
     <button
       class="bg-blue-500 text-white p-2 rounded flex gap-2 items-center"
       on:click={loginWithGoogle}
@@ -150,5 +154,6 @@ export async function checkUserDocument(uid) {
         /></svg
       > Login with Google</button
     >
+  </div>
   </div>
 {/if}

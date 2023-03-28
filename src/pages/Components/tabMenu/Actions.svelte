@@ -135,7 +135,7 @@ function updateActionValues(event, index) {
       attackPopup = !attackPopup;
     }}
     on:keydown={handleKeypress}
-    class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-center"
+    class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-center z-10"
   >
     <div
       on:click={handleChildClick}
