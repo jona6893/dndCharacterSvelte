@@ -40,9 +40,9 @@ function updateSpellSlotValue(event, index) {
 
  {#if $currentCharacter.spells.filter((spell) => spell.equipped === true && spell.spellSlotLevel === spellLevel).length > 0}   
 <div class="grid grid-cols-6 text-gray-500 text-xs border-b border-t  border-gray-400">
-    <span class="text-center">{spellLevel}</span>
+    <span class="flex items-center justify-center ">{spellLevel}</span>
     {#if $currentCharacter.spellSlots}
-    <div class="col-span-5 flex gap-2"> 
+    <div class="col-span-5 flex gap-2 my-1 items-center"> 
       <span class="font-normal">Spell Slot:</span>
  {#each Array.from({length: $currentCharacter.spellSlots[spellLevel]?.level}) as _, index}
   <input
@@ -81,7 +81,7 @@ function updateSpellSlotValue(event, index) {
     .checkbox {
     width: 20px;
     height: 20px;
-    background-color: white;
+    background-color: transparent;
     border-radius: 50%;
     vertical-align: middle;
     border: 2px solid #9ca3af;

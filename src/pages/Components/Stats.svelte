@@ -40,7 +40,7 @@ function calculateModifiedValue(value) {
     {#if $currentCharacter !== null && $currentCharacter.name !== undefined}
     
     {#each stats as stat}
-        <label for="" class="flex w-32 flex-col gap-2 justify-center items-center bg-gray-100 shadow-md p-4 rounded">
+        <label for="" class="flex w-28 flex-col gap-2 justify-center items-center bg-gray-100 shadow-md p-4 rounded">
             {stat.stat}
             <!-- Stats -->
 <input name="stat"

@@ -7,8 +7,9 @@
   import { onDestroy, onMount } from "svelte";
   import { currentCharacter } from "../storeUser";
 import { deepEqualStore } from "../deepEqualStore";
+  import HitPoints from "./Components/HitPoints.svelte";
 
-let previousCharacter;
+/* let previousCharacter;
 let interval;
 let counter = 0
 onMount(() => {
@@ -27,7 +28,7 @@ onMount(() => {
 onDestroy(() => {
   console.log('Cleared')
   clearInterval(interval);
-});
+}); */
 
 /* let previousCharacter;
 
@@ -53,10 +54,11 @@ $: {
 </script>
 
 {#if $userData}
-  <div in:fade class="grid grid-cols-3 gap-4 p-4 max-w-[1200px] mx-auto" id="dice-container">
+  <div in:fade class="grid grid-mainLayout gap-4 p-4 max-w-[1200px] mx-auto" id="dice-container">
     <Skills />
     <Stats />
     <TabMenu />
+    <HitPoints />
   </div>
 {:else}
   <div class="fixed w-full h-full inset-0 flex items-center justify-center">

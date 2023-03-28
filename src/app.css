@@ -11,6 +11,7 @@
 
 trix-toolbar .trix-button-group{
   border: none !important;
+  gap: 5px;
 }
 trix-toolbar .trix-button.trix-active{
   background-color: rgb(156 163 175) !important;
@@ -38,10 +39,10 @@ trix-toolbar .trix-button{
   .checkbox-round {
     width: 20px;
     height: 20px;
-    background-color: white;
+    background-color: transparent;
     border-radius: 50%;
     vertical-align: middle;
-    border: 2px solid #6b7280;
+    border: 1px solid #ffffff;
     appearance: none;
     -webkit-appearance: none;
     outline: none;
