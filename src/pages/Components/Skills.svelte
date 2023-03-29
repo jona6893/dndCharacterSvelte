@@ -44,7 +44,7 @@ function updateSkillValues(e, skillKey, isCheckbox = false) {
 
 </script>
 
-<div class="bg-gray-100 min-w-min w-72 grid gap-2 justify-items-start p-4 rounded col-start-1">
+<div class="bg-gray-100 min-w-min w-72 grid gap-2 justify-items-start p-4 rounded col-start-1 shadow-xl">
     {#each skills as skill}
 
         <label for="" class="flex flex-row-reverse text-gray-600 gap-2">

@@ -7,3 +7,5 @@ export const googleUser = writable(null);
 export const userData = writable(null);
 
 export const currentCharacter = writable(null);
+
+export const selectedCharacter = writable(0);

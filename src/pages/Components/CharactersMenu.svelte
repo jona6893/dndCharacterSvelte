@@ -1,15 +1,14 @@
 <script>
   import { onMount } from "svelte";
   import { db } from "../../firebase";
-  import { userData, googleUser } from "../../storeUser";
+  import { userData, googleUser, currentCharacter, selectedCharacter } from "../../storeUser";
   import { collection, doc, addDoc, serverTimestamp, deleteDoc, updateDoc } from "firebase/firestore";
   import { checkUserDocument } from "../../GoogleAuth.svelte";
-  import { currentCharacter } from "../../storeUser";
   import {fade, scale} from 'svelte/transition';
   import { get } from "svelte/store";
  
   // The current Selected Character
-  let selectedCharacter = 0;
+ 
   let deleteCharacterIndex;
   //Popup variables
   let showChar = false;
@@ -41,23 +40,23 @@
 
   //
   // update to display the current selected character
-  function updateCurrentCharacter(index) {
-    console.log(index)
-    selectedCharacter = index;
-    userData.subscribe(($userData) => {
-      // Set the currentCharacter store value based on the selected index
-      if ($userData != null) {
-        currentCharacter.set($userData[selectedCharacter]);
-      }
-    });
-  }
+ function updateCurrentCharacter(index) {
+  console.log(index);
+  selectedCharacter.set(index);
+  userData.subscribe(($userData) => {
+    // Set the currentCharacter store value based on the selected index
+    if ($userData != null) {
+      currentCharacter.set($userData[$selectedCharacter]);
+    }
+  });
+}
   //
   // get the users characters
   onMount(() => {
     userData.subscribe(($userData) => {
       // Set the currentCharacter store value based on the selected index
       if ($userData != null) {
-        currentCharacter.set($userData[selectedCharacter]);
+        currentCharacter.set($userData[$selectedCharacter]);
       }
     });
 
@@ -170,7 +169,7 @@
 // Update a character in the database
 async function updateCurrentCharacterInFirebase() {
   const userDocRef = doc(db, 'Dnd', $googleUser.uid);
-  const characterId = $userData[selectedCharacter].id;
+  const characterId = $userData[$selectedCharacter].id;
   const characterRef = doc(userDocRef, 'Characters', characterId);
   console.log(characterId)
    try {
@@ -189,8 +188,9 @@ async function updateCurrentCharacterInFirebase() {
 
 </script>
 
+
 <div class="relative">
-  <button on:click={updateCurrentCharacterInFirebase}>Update</button>
+  <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer" on:click={updateCurrentCharacterInFirebase}>Save Character</button>
   <button
     on:click={() => (showChar2 = !showChar2)}
     class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer"
