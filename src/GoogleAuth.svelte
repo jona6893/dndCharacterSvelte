@@ -79,6 +79,7 @@ export async function checkUserDocument(uid) {
   const userDocRef = doc(db, 'Dnd', uid);
   const userDocSnap = await getDoc(userDocRef);
   let unsubscribeCharacters;
+  console.log('checkUserDocument')
 
   if (userDocSnap.exists()) {
     //console.log('User document exists:', userDocSnap.data());

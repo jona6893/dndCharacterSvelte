@@ -10,32 +10,50 @@
   import BasicStats from "./Components/BasicStats.svelte";
   import { db } from "../firebase";
   import { updateCurrentCharacterInFirebase } from '../updateCharacter.js';
+import { deepEqualStore } from "../deepEqualStore";
+import isEqual from "lodash.isequal";
 
-  let previousCharacter;
-let interval;
-let counter = 0
-onMount(() => {
+
+let previousCharacter;
+let updateTimeout;
+
+// Subscribe to the currentCharacter store
+const unsubscribe = currentCharacter.subscribe(($currentCharacter) => {
+  // Create copies of the objects without the "updatedAt" property
+  const previousCharacterWithoutUpdatedAt = { ...previousCharacter };
+  delete previousCharacterWithoutUpdatedAt.updatedAt;
+
+  const currentCharacterWithoutUpdatedAt = { ...$currentCharacter };
+  delete currentCharacterWithoutUpdatedAt.updatedAt;
+  
+  // Check if previousCharacter is set and if it's different from the new value
+  if (previousCharacter && !isEqual(previousCharacterWithoutUpdatedAt, currentCharacterWithoutUpdatedAt)) {
+    console.log('currentCharacter value has changed');
+    // Clear any previously scheduled update
+    clearTimeout(updateTimeout);
+    // Schedule an update after 2 seconds
+    updateTimeout = setTimeout(() => {
+      console.log('updating currentCharacter');
+      updateCharacterInFirebaseWrapper()
+    }, 2000);
+  } else{
+    console.log('currentCharacter value is the same');
+  }
+  // Update previousCharacter with the new value
   previousCharacter = $currentCharacter;
-  interval = setInterval(() => {
-    if(counter == 0){
-      counter++
-    } else {
-    if (previousCharacter !== $currentCharacter) {
-      console.log("currentCharacter value has changed");
-      previousCharacter = $currentCharacter;
-      //updateCharacterInFirebaseWrapper()
-    }}
-  }, 3000);
 });
 
 onDestroy(() => {
-  console.log('Cleared')
-  clearInterval(interval);
-}); 
+  unsubscribe();
+  clearTimeout(updateTimeout);
+});
 
 async function updateCharacterInFirebaseWrapper() {
-await updateCurrentCharacterInFirebase(db, $googleUser, $userData, $selectedCharacter, $currentCharacter);
+  const updatedCharacterData = await updateCurrentCharacterInFirebase(db, $googleUser, $userData, $selectedCharacter, $currentCharacter);
+  previousCharacter = updatedCharacterData;
 }
+
+
 
 
 
