@@ -12,7 +12,17 @@
   let showSpellsSlot = false;
   let slots = ['Cantrip',1,2,3,4,5,6,7,8,9]
   let slotUpdate = [0,0,0,0,0,0,0,0,0]
-
+  let chaosBolt = {
+    name: "Chaos Bolt",
+    desc: ["You hurl an undulating, warbling mass of chaotic energy at one creature in range. Make a ranged spell attack against the target. On a hit, the target takes 2d8 + 1d6 damage. Choose one of the d8s. The number rolled on that die determines the attack's damage type, as shown below. If you roll the same number on both d8s, the chaotic energy leaps from the target to a different creature of your choice within 30 feet of it. Make a new attack roll against the new target, and make a new damage roll, which could cause the chaotic energy to leap again. A creature can be targeted only once by each casting of this spell.", 'Damage Type: 1-Acid, 2-Cold, 3-Fire, 4-Force, 5-Lightining, 6-Poion, 7-Psychic, 8-Thunder'],
+    range: "120 feet",
+    casting_time: '1 action',
+    level: 1,
+    duration: 'Instantaneous',
+    damage: {damage_type:{name: 'Multiple'}, damage_at_slot_level: {1: '2d8+1d6', 2: '2d8+2d6', 3: '2d8+2d6', 4: '2d8+4d6', 5:'2d8+5d6', 6:'2d8+6d6', 7:'2d8+7d6', 8:'2d8+8d6', 9:'2d8+9d6'}},
+    higher_level: 1,
+    url: 'chaosBolt'
+  }
   //console.log($currentCharacter)
   //
   // Stop the popup from closing when the user clicks the children of the popup
@@ -35,6 +45,7 @@
   //
   $: filteredSpells = spellsData.filter((spell) =>
     spell.name.toLowerCase().includes(searchTerm.toLowerCase())
+
   );
   //
   //
@@ -44,20 +55,28 @@
       const response = await fetch(spellsUrl);
       const data = await response.json();
       spellsData = data.results;
+      spellsData.push(chaosBolt);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
+    console.log(spellsData);
   }
   //
   //
   // Fetch the selected item from the API
   async function fetchSelectedItemData(url) {
+    if(url == 'chaosBolt') {
+      selectedItemData = chaosBolt;
+    } else {
     try {
       const response = await fetch("https://www.dnd5eapi.co" + url);
       selectedItemData = await response.json();
     } catch (error) {
       console.error("Error fetching item data: ", error);
     }
+  }
+    console.log(selectedItemData);
+
   }
 
   function addSpellToCharacter() {

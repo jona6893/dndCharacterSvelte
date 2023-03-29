@@ -1,6 +1,6 @@
 <script>
   import GoogleAuth from "./GoogleAuth.svelte";
-  import { googleUser } from "./storeUser";
+  import { googleUser,userData } from "./storeUser";
   import { onMount } from "svelte";
   import { Router, Route, Link } from "svelte-routing";
   import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -33,9 +33,9 @@ import {currentCharacter} from "./storeUser"
       navigate('/login'); // Navigate to the login page if the user is logged out
     }
     console.log($googleUser);
+    
   });
 });
-
 
 
 

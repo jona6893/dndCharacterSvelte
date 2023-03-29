@@ -203,7 +203,7 @@ async function updateCurrentCharacterInFirebase() {
   >
   <div
     on:mouseleave={() => (showChar = false)}
-    class="absolute flex-col bg-slate-600 rounded p-4 top-[110%] left-[25%] w-full shadow {showChar
+    class="absolute flex-col bg-slate-600 rounded p-4 top-[110%] left-[25%] w-full shadow z-10 {showChar
       ? 'flex'
       : 'hidden'}"
   >
@@ -255,7 +255,7 @@ async function updateCurrentCharacterInFirebase() {
   transition:fade
     on:click={closePopup}
     on:keydown={handleKeypress}
-    class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0"
+    class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 z-10"
   >
     <div
       class="bg-slate-600 min-w-min w-80 flex flex-col p-4 rounded shadow"
