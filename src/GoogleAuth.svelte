@@ -119,7 +119,7 @@ export async function checkUserDocument(uid) {
   > -->
 {:else}
   <div 
-    style="background-image: url('../public/dnd.jpg')"
+    style="background-image: url('/public/dnd.jpg')"
     class="inset-0 w-screen h-screen m-auto bg-cover bg-center bg-no-repeat"
   >
   <div class="w-full h-full inset-0 bg-black/50 flex flex-col gap-4 items-center justify-center">
