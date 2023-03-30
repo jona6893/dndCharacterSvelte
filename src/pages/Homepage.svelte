@@ -35,7 +35,7 @@ const unsubscribe = currentCharacter.subscribe(($currentCharacter) => {
     updateTimeout = setTimeout(() => {
       console.log('updating currentCharacter');
       updateCharacterInFirebaseWrapper()
-    }, 2000);
+    }, 3000);
   } else{
     console.log('currentCharacter value is the same');
   }
