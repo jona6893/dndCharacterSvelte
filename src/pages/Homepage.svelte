@@ -10,12 +10,27 @@
   import BasicStats from "./Components/BasicStats.svelte";
   import { db } from "../firebase";
   import { updateCurrentCharacterInFirebase } from '../updateCharacter.js';
-import { deepEqualStore } from "../deepEqualStore";
 import isEqual from "lodash.isequal";
-
 
 let previousCharacter;
 let updateTimeout;
+
+
+/* listen to Screen Width */
+let windowWidth;
+
+function handleResize() {
+  windowWidth = window.innerWidth;
+}
+
+onMount(() => {
+  windowWidth = window.innerWidth;
+  window.addEventListener('resize', handleResize);
+});
+
+onDestroy(() => {
+  window.removeEventListener('resize', handleResize);
+});
 
 // Subscribe to the currentCharacter store
 const unsubscribe = currentCharacter.subscribe(($currentCharacter) => {
@@ -56,10 +71,10 @@ async function updateCharacterInFirebaseWrapper() {
 
 
 
-
 </script>
 
 {#if $userData}
+  {#if windowWidth > 1105}
   <div in:fade class="grid grid-mainLayout gap-4 p-4 max-w-[1200px] mx-auto font-Outfit" id="dice-container">
     <Skills />
     <Stats />
@@ -70,8 +85,14 @@ async function updateCharacterInFirebaseWrapper() {
     </div>
     <BasicStats/>
   </div>
+  {:else if windowWidth < 1105}
+  <div>
+    hallo!
+  </div>
+  {/if}
 {:else}
   <div class="fixed w-full h-full inset-0 flex items-center justify-center">
     <h1 class="text-white text-5xl">LOADING DATA</h1>
   </div>
+  
 {/if}
