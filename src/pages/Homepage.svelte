@@ -86,7 +86,7 @@ async function updateCharacterInFirebaseWrapper() {
     <BasicStats/>
   </div>
   {:else if windowWidth < 1105}
-  <div>
+  <div in:fade class="">
     hallo!
   </div>
   {/if}

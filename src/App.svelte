@@ -102,21 +102,21 @@
     </button>
   </div>
   <div
-  class="fixed left-full translate-x-[-100%] bg-gray-400 h-screen top-0 transition duration-300 z-10 {sideMenu && 'translate-x-hide'} {windowWidth > 640? 'w-80':'w-screen'}"
+  class="fixed left-full translate-x-[-100%] bg-gray-400 h-screen top-0 overflow-scroll text-white transition duration-300 z-10 {sideMenu && 'translate-x-hide'} {windowWidth > 640? 'w-80':'w-screen'}"
     >
     <div class="flex justify-end p-6">
     <button on:click={() => sideMenu = !sideMenu} class="text-white ">
           X
         </button>
       </div>
-      <div class="flex flex-col justify- p-6">
+      <div class="flex flex-col justify- p-6 gap-4">
         <button
     class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer h-fit"
     on:click={logout}
   >
     Logout
   </button>
-  <p class="bg-slate-600 p-2 rounded">
+  <p class="bg-slate-600 p-2 rounded text-center">
     <span class="font-thin">user: </span>{$googleUser.displayName}
   </p>
   <CharactersMenu />

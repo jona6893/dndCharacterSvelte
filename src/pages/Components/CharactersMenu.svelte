@@ -189,7 +189,7 @@ async function updateCurrentCharacterInFirebase() {
 </script>
 
 
-<div class="relative">
+<div class="relative max-laptop:grid gap-4">
   <button class="bg-slate-600 p-2 rounded hover:bg-slate-500 cursor-pointer" on:click={updateCurrentCharacterInFirebase}>Save Character</button>
   <button
     on:click={() => (showChar2 = !showChar2)}
@@ -203,7 +203,7 @@ async function updateCurrentCharacterInFirebase() {
   >
   <div
     on:mouseleave={() => (showChar = false)}
-    class="laptop;absolute flex-col bg-slate-600 rounded p-4 top-[110%] left-[25%] w-full shadow z-10 {showChar
+    class="laptop:absolute flex-col bg-slate-600 rounded p-4 top-[110%] left-[25%] w-full shadow z-10 {showChar
       ? 'flex'
       : 'hidden'}"
   >
@@ -255,10 +255,10 @@ async function updateCurrentCharacterInFirebase() {
   transition:fade
     on:click={closePopup}
     on:keydown={handleKeypress}
-    class="laptop:fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center laptop:w-screen laptop:h-screen inset-0 z-10"
+    class="laptop:fixed flex-col bg-slate-600/25 rounded laptop:p-4 flex items-center justify-center laptop:w-screen laptop:h-screen inset-0 z-10"
   >
     <div
-      class="bg-slate-600 min-w-min w-80 flex flex-col p-4 rounded shadow"
+      class="bg-slate-600 min-w-min laptop:w-80 flex flex-col p-4 rounded shadow"
       on:click={handleChildClick}
       on:keydown={handleKeypress}
     >
