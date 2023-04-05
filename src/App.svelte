@@ -102,8 +102,9 @@
     </button>
   </div>
   <div
-  class="fixed left-full translate-x-[-100%] bg-gray-400 h-screen top-0 overflow-scroll text-white transition duration-300 z-10 {sideMenu && 'translate-x-hide'} {windowWidth > 640? 'w-80':'w-screen'}"
+  class="fixed flex justify-end bg-transparent left-[100%] h-screen w-screen top-0 overflow-scroll text-white ease-linear duration-300 z-10 {sideMenu ? 'left-full' : 'hide'} {windowWidth > 640} "
     >
+    <div class="bg-gray-400 {windowWidth <= 640 ? 'w-full':'w-80'}">
     <div class="flex justify-end p-6">
     <button on:click={() => sideMenu = !sideMenu} class="text-white ">
           X
@@ -124,8 +125,8 @@
   
 </div>
 </div>
+</div>
 
-<!-- SideMenu -->
 
 
       {/if}
@@ -139,7 +140,8 @@
 
 
 <style>
-  .translate-x-hide{
-    	transform: translateX(0px) !important;
+  .hide{
+    	left: 0% !important;
+      transition: 0.3s;
   }
 </style>

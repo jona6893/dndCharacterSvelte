@@ -255,7 +255,7 @@ async function updateCurrentCharacterInFirebase() {
   transition:fade
     on:click={closePopup}
     on:keydown={handleKeypress}
-    class="laptop:fixed flex-col bg-slate-600/25 rounded laptop:p-4 flex items-center justify-center laptop:w-screen laptop:h-screen inset-0 z-10"
+    class="fixed flex-col bg-slate-600/25 rounded laptop:p-4 flex items-center justify-center laptop:w-screen laptop:h-screen inset-0 z-10"
   >
     <div
       class="bg-slate-600 min-w-min laptop:w-80 flex flex-col p-4 rounded shadow"
@@ -386,7 +386,7 @@ async function updateCurrentCharacterInFirebase() {
 <div transition:fade
   on:click={closePopupDelete}
   on:keydown={handleKeypress}
-  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0"
+  class="fixed flex-col bg-slate-600/25 rounded p-4 flex items-center justify-center w-screen h-screen inset-0 z-10"
 >
   <div
     on:click={handleChildClick}

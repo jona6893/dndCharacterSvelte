@@ -3,8 +3,10 @@
   import { fade } from "svelte/transition";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
+  import ModalPopup from "../modal/ModalPopup.svelte";
   
   let attackPopup = false;
+  let modalStatus = false;
   //
   //
   //
@@ -97,6 +99,7 @@ function updateActionValues(event, index) {
   <button
     on:click={() => {
       attackPopup = !attackPopup;
+      modalStatus = !modalStatus;
     }}>MANAGE</button
   >
   <div class="grid gap-2">
@@ -128,43 +131,9 @@ function updateActionValues(event, index) {
 </div>
 
 <!-- Attack POPUP -->
-{#if attackPopup}
-  <div
-    transition:fade
-    on:click={() => {
-      attackPopup = !attackPopup;
-    }}
-    on:keydown={handleKeypress}
-    class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-center z-10"
-  >
-    <div
-      on:click={handleChildClick}
-      on:keydown={handleKeypress}
-      class="w-9/12 h-4/6 bg-white grid grid-cols-actionsPopup gap-2 justify- text-black p-8 rounded relative"
-    >
-      <!-- Close Button -->
-      <button
-        class="absolute hover:bg-gray-200 rounded-full top-[5px] left-[5px] border-2 border-black"
-        on:click={() => {
-          attackPopup = !attackPopup;
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-      <div class=" grid grid-rows-2 gap-2">
+
+<ModalPopup bind:modalStatus>
+  <div class=" grid grid-rows-2 gap-2">
         <div
           class="flex flex-col items-center border rounded p-2 overflow-auto"
         >
@@ -316,10 +285,6 @@ function updateActionValues(event, index) {
                   on:change={(e) => updateActionValues(e, index)}
                   type="text"
                 />
-                <!-- <li>{action.range}</li>
-            <li>{action.hitdc}</li>
-            <li>{action.damage}</li>
-            <li>{action.notes}</li> -->
               </ul>
             {/each}
           {/if}
@@ -383,6 +348,5 @@ function updateActionValues(event, index) {
           >
         </form>
       </div>
-    </div>
-  </div>
-{/if}
+</ModalPopup>
+
