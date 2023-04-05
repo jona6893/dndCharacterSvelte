@@ -1,7 +1,7 @@
 
 <script>
     import {fade} from 'svelte/transition';
-    export let modalStatus;;
+    export let modalStatus;
 
 
   // Stop the popup from closing when the user clicks the children of the popup
@@ -19,7 +19,7 @@
 
 
 
-
+{#if modalStatus}
 <div transition:fade
   on:click={() => {
     modalStatus = !modalStatus;
@@ -56,3 +56,4 @@ class="fixed w-full h-full inset-0 bg-slate-600/25 flex items-center justify-cen
     </slot>
     </div>
 </div>
+{/if}
