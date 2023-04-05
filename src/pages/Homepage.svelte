@@ -76,8 +76,8 @@ async function updateCharacterInFirebaseWrapper() {
 {#if $userData}
   {#if windowWidth > 1105}
   <div in:fade class="grid grid-mainLayout gap-4 p-4 max-w-[1200px] mx-auto font-Outfit" id="dice-container">
-    <Skills />
-    <Stats />
+    <Skills/>
+    <Stats/>
     <TabMenu />
     <div class="flex flex-col gap-4 col-start-4 row-start-1">
       <HitPoints />
@@ -87,7 +87,8 @@ async function updateCharacterInFirebaseWrapper() {
   </div>
   {:else if windowWidth < 1105}
   <div in:fade class="">
-    hallo!
+        <Stats/>
+        <Skills/>
   </div>
   {/if}
 {:else}
