@@ -14,7 +14,7 @@ import isEqual from "lodash.isequal";
 
 let previousCharacter;
 let updateTimeout;
-
+let mobileMenu = 1
 
 /* listen to Screen Width */
 let windowWidth;
@@ -86,9 +86,24 @@ async function updateCharacterInFirebaseWrapper() {
     <BasicStats/>
   </div>
   {:else if windowWidth < 1105}
-  <div in:fade class="">
-        <Stats/>
-        <Skills/>
+  <div in:fade class="mb-20 max-h-fit">
+    <div class="{mobileMenu === 1 ? 'block' : 'hidden'}">
+      <Stats/>
+      <Skills/>
+    </div>
+    <div class="{mobileMenu === 2 ? 'block' : 'hidden'}">
+      <BasicStats/>
+      <HitPoints />
+       <SavingThrows />
+    </div>
+     <div class="{mobileMenu === 3 ? 'block' : 'hidden'}">
+      <TabMenu />
+    </div>
+        <div class="fixed top-full bg-slate-700 p-4 text-white translate-y-[-100%] flex w-full justify-between">
+          <button on:click={()=>mobileMenu = 1}>details</button>
+          <button on:click={()=>mobileMenu = 2}>stats/skill</button>
+          <button on:click={()=>mobileMenu = 3}>TabMenu</button>
+        </div>
   </div>
   {/if}
 {:else}
