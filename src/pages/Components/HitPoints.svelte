@@ -96,7 +96,7 @@ onMount(()=> {
 
 </script>
 
-<div class="bg-gray-100 p-4 shadow-md col-start-4 row-start-1 rounded w-full h-fit">
+<div class="bg-gray-100 p-4 shadow-md col-start-4 row-start-1 rounded w-full h-fit max-laptop:w-fit">
     {#if !dead}
     <!-- Hit Points -->
     

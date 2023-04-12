@@ -3,6 +3,8 @@
   import "trix/dist/trix.css"; // import the styles
   import {currentCharacter} from "../../../storeUser"
  
+  const extras = ['CP','SP','EP','GP','PP']
+
   let trixEditorLang;
   let trixEditorEquip;
   let lang = "";
@@ -29,6 +31,20 @@
   });
   
   }
+  function updateExtraStats(event) {
+  let field = event.target.name;
+  let value = event.target.value;
+
+
+  currentCharacter.update((character) => {
+    let newHitpoints = {...character[field]}
+    newHitpoints = value;
+    return { ...character, [field]: newHitpoints };
+  });
+  console.log($currentCharacter);
+}
+
+
 
 </script>
 
@@ -43,6 +59,16 @@
   <trix-editor input="trix-equip" on:trix-change="{handleTrixChangeEquip}" bind:this="{trixEditorEquip}"></trix-editor>
 </div>
 
+<div class="flex gap-4">
+{#each extras as extra }
+  <label class="flex flex-row-reverse gap-2" for="">
+    <input value={$currentCharacter?.[extra]? $currentCharacter[extra] : 0} on:change={updateExtraStats}
+    name={extra}
+ type="text" class="w-12 bg-transparent border-gray-400 border-b text-center">
+    {extra}
+  </label>
+{/each}
+</div>
 <style>
   .trix-editor-wrapper {
     /* You can add custom styles for the editor wrapper here */
