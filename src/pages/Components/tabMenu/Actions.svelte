@@ -5,6 +5,7 @@
   import { fly } from "svelte/transition";
   import ModalPopup from "../modal/ModalPopup.svelte";
   
+  let mobileMenuSwitcher = 0
   let attackPopup = false;
   let modalStatus = false;
   //
@@ -133,7 +134,16 @@ function updateActionValues(event, index) {
 <!-- Attack POPUP -->
 
 <ModalPopup bind:modalStatus>
-  <div class=" grid grid-rows-2 gap-2">
+  <div class="flex flex-col w-full gap-2">
+    <div class="laptop:hidden mx-auto flex gap-4">
+      <button class="text-sm cursor-pointer {mobileMenuSwitcher === 0 && 'underline'}" on:click={()=> mobileMenuSwitcher = 0}>
+        My Actions
+      </button>
+      <button class="text-sm cursor-pointer {mobileMenuSwitcher === 1 && 'underline'}" on:click={()=> mobileMenuSwitcher = 1}>
+        Add Action
+      </button>
+    </div>
+  <div class="grid grid-rows-2 gap-2 {mobileMenuSwitcher === 1 && 'max-laptop:hidden'} max-laptop:h-full">
         <div
           class="flex flex-col items-center border rounded p-2 overflow-auto"
         >
@@ -290,7 +300,7 @@ function updateActionValues(event, index) {
           {/if}
         </div>
       </div>
-      <div class="border rounded p-4 grid justify-items-center">
+      <div class="border rounded p-4 grid justify-items-center {mobileMenuSwitcher === 0 && 'max-laptop:hidden'}">
         <span>Submit Action</span>
         <form
           action=""
@@ -348,5 +358,6 @@ function updateActionValues(event, index) {
           >
         </form>
       </div>
+    </div>
 </ModalPopup>
 

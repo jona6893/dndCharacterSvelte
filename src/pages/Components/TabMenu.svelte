@@ -8,9 +8,9 @@
 </script>
 
 <div
-  class="bg-gray-100 h-full shadow-md text- flex flex-col gap-4 p-4 col-span-3 rounded col-start-2 row-start-2"
+  class="bg-gray-100 h-full max-laptop:w-full max-laptop:h-screen shadow-md text- flex flex-col gap-4 laptop:p-4 max-laptop:p-2 col-span-3 rounded col-start-2 row-start-2"
 >
-  <ul class="flex flex-wrap gap-4 max-h-12">
+  <ul class="flex flex-wrap gap-4 max-md:max-h-12 ">
     <button
       on:click={() => (menuOption = 0)}
       class="p-2 border border-gray-400 hover:bg-gray-400 hover:text-white rounded {menuOption ===
@@ -47,7 +47,7 @@
       LANGUAGES & EQUIPMENT
     </button>
   </ul>
-  <div class="max-h-[600px] overflow-auto">
+  <div class="max-h-[600px] laptop:overflow-auto max-laptop:overflow-hidden">
     {#if menuOption == 0}
       <Actions />
     {:else if menuOption == 1}

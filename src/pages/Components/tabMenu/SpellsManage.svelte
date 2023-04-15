@@ -6,6 +6,7 @@
   import Spells from "./Spells.svelte";
 
   export let showSpellsPopup;
+  let mobileMenuSwitcher = 0
   let viewKnownSpell = false;
   let selectedSpell = null;
   let curSelectedItem = null;
@@ -194,7 +195,7 @@ function updateSpellSlotLevel(event, targetSpell) {
   <div
     on:click={handleChildClick}
     on:keydown={handleKeypress}
-    class="w-9/12 h-4/6 bg-white text-black flex gap-2 overflow-auto justify-between p-8 rounded relative"
+    class="laptop:w-9/12 laptop:h-4/6 max-laptop:h-[90%] max-laptop:w-[90%] bg-white text-black flex max-laptop:flex-col gap-2 overflow-auto justify-between p-8 rounded relative"
   >
     <!-- Close Button -->
     <button
@@ -219,7 +220,15 @@ function updateSpellSlotLevel(event, targetSpell) {
       </svg>
     </button>
     <!-- Known Spells -->
-    <div class="flex-1 grid gap-2 relative">
+    <div class="laptop:hidden mx-auto flex gap-4">
+      <button class="text-sm cursor-pointer {mobileMenuSwitcher === 0 && 'underline'}" on:click={()=> mobileMenuSwitcher = 0}>
+        My spells
+      </button>
+      <button class="text-sm cursor-pointer {mobileMenuSwitcher === 1 && 'underline'}" on:click={()=> mobileMenuSwitcher = 1}>
+        Find Spell
+      </button>
+    </div>
+    <div class="flex-1 grid gap-2 relative {mobileMenuSwitcher === 1 && 'max-laptop:hidden'}">
       <!-- Not equipped Spells -->
       <div class="border p-2 rounded overflow-auto">
         <p class="text-sm text-gray-700 text-center w-full">Known Spells</p>
@@ -231,7 +240,7 @@ function updateSpellSlotLevel(event, targetSpell) {
           <li>Remove</li>
         </ul>
         {#if currentCharacter && $currentCharacter.spells}
-          {#each $currentCharacter.spells.filter((spell) => spell.equipped === false) as spell, index}
+          {#each $currentCharacter.spells.filter((spell) => spell.equipped === !true) as spell, index}
             <ul
             transition:fly="{{ y: 25, duration: 300 }}"
               class="grid group grid-cols-5 text-xs cursor-pointer text-center hover:bg-green-500 hover:text-white rounded items-center" >
@@ -503,7 +512,7 @@ function updateSpellSlotLevel(event, targetSpell) {
       {/if}
     </div>
     <!-- LIST OF SPELLS  -->
-    <div class="flex flex-col flex-1 gap-2">
+    <div class="flex flex-col flex-1 gap-2 {mobileMenuSwitcher === 0 && 'max-laptop:hidden'} max-laptop:h-full">
       <!-- Search And Add button -->
       <div class="flex gap-4">
         <input

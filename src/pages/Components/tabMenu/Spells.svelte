@@ -34,7 +34,7 @@
 </script>
 
 <div class="grid gap-4">
-  <div class="grid grid-cols-3 gap-4">
+  <div class="grid laptop:grid-cols-3 gap-4">
     <div class="col-start-2 flex gap-4 text-center">
       <label for="" class="group grid gap-1 justify-items-center text-xs relative">
         <span class="flex">
