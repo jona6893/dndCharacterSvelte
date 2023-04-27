@@ -47,7 +47,7 @@
       LANGUAGES & EQUIPMENT
     </button>
   </ul>
-  <div class="max-h-[600px] laptop:overflow-auto max-laptop:overflow-hidden">
+  <div class="max-h-max laptop:overflow-auto max-laptop:overflow-hidden">
     {#if menuOption == 0}
       <Actions />
     {:else if menuOption == 1}
