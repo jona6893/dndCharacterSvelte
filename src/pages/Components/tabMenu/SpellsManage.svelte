@@ -24,6 +24,17 @@
     higher_level: 1,
     url: 'chaosBolt'
   }
+  let mindSliver = {
+    name: "Mind Sliver",
+    desc: ["You drive a disorienting spike of psychic energy into the mind of one creature you can see within range. The target must succeed on an Intelligence saving throw or take 1d6 psychic damage and subtract 1d4 from the next saving throw it makes before the end of your next turn."],
+    range: "60 feet",
+    casting_time: '1 action',
+    level: 1,
+    duration: '1 round',
+    damage: {damage_type:{name: 'Multiple'}, damage_at_slot_level: {1: '1d1d6', 2: '2d8+2d6', 3: '2d8+2d6', 4: '2d8+4d6', 5:'2d8+5d6', 6:'2d8+6d6', 7:'2d8+7d6', 8:'2d8+8d6', 9:'2d8+9d6'}},
+    higher_level: 1,
+    url: 'mindsliver'
+  }
   //console.log($currentCharacter)
   //
   // Stop the popup from closing when the user clicks the children of the popup
@@ -56,7 +67,7 @@
       const response = await fetch(spellsUrl);
       const data = await response.json();
       spellsData = data.results;
-      spellsData.push(chaosBolt);
+      spellsData.push(chaosBolt,mindSliver);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -68,7 +79,9 @@
   async function fetchSelectedItemData(url) {
     if(url == 'chaosBolt') {
       selectedItemData = chaosBolt;
-    } else {
+    } else if(url == 'mindsliver') {
+       selectedItemData = mindSliver;
+    }else {
     try {
       const response = await fetch("https://www.dnd5eapi.co" + url);
       selectedItemData = await response.json();
